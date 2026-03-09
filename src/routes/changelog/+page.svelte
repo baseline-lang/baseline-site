@@ -8,6 +8,56 @@
 	What's new in each release of the Baseline compiler.
 </p>
 
+<section id="v0.3.2">
+	<h2>v0.3.2 <span class="dim small">March 9, 2026</span></h2>
+	<p>
+		Production-ready server runtime, scalar replacement of aggregates, and mutable bindings.
+		The HTTP server gains middleware, graceful shutdown, rate limiting, compression, and CORS --
+		while the JIT compiler delivers major performance wins through SRA and scalar RC elision.
+	</p>
+
+	<h3>Server</h3>
+	<ul>
+		<li>JIT-compiled <strong>middleware chain</strong> with <code>next(req)</code> continuation</li>
+		<li>Graceful shutdown on SIGINT/SIGTERM with 30s connection drain</li>
+		<li>Per-IP <strong>rate limiting</strong> (token bucket, 100 req/s) with 429 responses</li>
+		<li>Gzip <strong>response compression</strong> for bodies over 1KB</li>
+		<li>Built-in <strong>CORS preflight</strong> handling for OPTIONS requests</li>
+		<li>Request header (8KB) and body (1MB) size limits with 413 responses</li>
+		<li>Structured request logging with request ID tracking</li>
+		<li>Built-in <code>/__health</code> endpoint</li>
+		<li>Keep-alive timeout (30s) and server workers via <code>SO_REUSEPORT</code></li>
+		<li>Panic recovery with <code>catch_unwind</code> around handler dispatch</li>
+	</ul>
+
+	<h3>JIT Compiler</h3>
+	<ul>
+		<li><strong>Scalar replacement of aggregates</strong> (SRA) -- record parameters decomposed into individual registers, eliminating heap allocation in tight loops</li>
+		<li>SRA let-floating exposes inlined records to optimization (<strong>6x nbody speedup</strong>)</li>
+		<li><strong>Scalar RC elision</strong> -- skip incref/decref for Int, Float, Bool, Unit values</li>
+		<li>Multi-value returns for all-scalar records (one register per field)</li>
+		<li>Mutable field assignment compiles to direct SRA variable update (zero allocation)</li>
+		<li>Tail recursion modulo constructor (TRMC) rewrites recursive constructors into iterative loops</li>
+		<li>Typed drop-reuse codegen for enum, tuple, record, and struct values</li>
+		<li>Typed <code>JitError</code> variants and <code>can_jit_reason()</code> diagnostics</li>
+		<li>Profiling counters via <code>BLC_JIT_COUNTERS</code> and IR dump via <code>BASELINE_DUMP_IR</code></li>
+	</ul>
+
+	<h3>Language</h3>
+	<ul>
+		<li><code>let mut</code> bindings with assignment statements for mutable local variables</li>
+		<li>Mutable record field assignment (<code>obj.field = val</code>)</li>
+	</ul>
+
+	<h3>Tooling</h3>
+	<ul>
+		<li>Moved to <code>baseline-lang</code> GitHub organization</li>
+		<li>Heap benchmark gate and nbody reference outputs in CI</li>
+	</ul>
+</section>
+
+<hr />
+
 <section id="v0.3.0">
 	<h2>v0.3.0 <span class="dim small">March 5, 2026</span></h2>
 	<p>

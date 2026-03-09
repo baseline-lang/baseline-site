@@ -34,6 +34,11 @@
 <section id="ai">
 	<h2>Designed for AI Agents</h2>
 	<p>
+		Most languages make you choose between types that don't enforce much and
+		proofs that require a PhD. Baseline sits in between: types that check
+		real constraints, in a language that feels normal to write.
+	</p>
+	<p>
 		Most languages give you three ways to do the same thing, hide side effects
 		behind innocent-looking function calls, and rely on runtime checks that
 		somebody might forget to write. That's manageable when a human reads every
@@ -45,6 +50,7 @@
 		easier to review, easier to trust, and easier to verify, whether a
 		person or a machine wrote it.
 	</p>
+	<p class="small muted"><a href="/design">Read the full design &rarr;</a></p>
 
 	<h3 id="types">Types as Specs</h3>
 	<p>
