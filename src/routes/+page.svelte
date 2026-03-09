@@ -5,14 +5,14 @@
 
 <h1>Baseline</h1>
 <p class="lead">
-	A fast, safe functional language that is easy to learn but hard to break,
-	whether you're writing the code yourself or with an AI agent.
+	A fast, safe functional language that's easy to learn and hard to break,
+	whether you write the code or use an AI agent.
 </p>
 
 <ul>
-	<li><strong>Simple to learn:</strong> Small, consistent syntax that reads the same everywhere.</li>
-	<li><strong>Fast and lightweight:</strong> Compiled to native code with low memory usage.</li>
-	<li><strong>Safe by default:</strong> The compiler checks types, effects, and error handling before your code runs.</li>
+	<li><strong>Easy to learn:</strong> Small, consistent syntax reads the same everywhere.</li>
+	<li><strong>Fast and lightweight:</strong> Compiles to native code with low memory use.</li>
+	<li><strong>Safe by default:</strong> The compiler checks types, effects, and errors before running.</li>
 </ul>
 
 <pre><code>{@html `<span class="kw">fn</span> <span class="fn">fetch_user!</span><span class="punct">(</span><span class="fn">id</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Http, Console}</span> <span class="type">Result&lt;String, String&gt;</span> <span class="op">=</span>
@@ -34,21 +34,25 @@
 <section id="ai">
 	<h2>Designed for AI Agents</h2>
 	<p>
-		Most languages make you choose between types that don't enforce much and
-		proofs that require a PhD. Baseline sits in between: types that check
-		real constraints, in a language that feels normal to write.
+		AI agents generate code fast but make subtle mistakes: invalid states,
+		hidden side effects, unchecked errors. Most type systems either catch
+		too little to help or require formal proofs that agents can't produce.
+		Baseline finds a middle ground: types that check real constraints,
+		like rejecting a port number of -1 at compile time, without needing
+		formal verification expertise.
 	</p>
 	<p>
-		Most languages give you three ways to do the same thing, hide side effects
-		behind innocent-looking function calls, and rely on runtime checks that
-		somebody might forget to write. That's manageable when a human reads every
-		line. It falls apart when AI agents generate code at scale.
+		Many languages let you do the same thing in several ways. They hide
+		side effects in functions that look safe and rely on runtime checks
+		that can be missed. That's manageable when people review every line,
+		but it breaks down when agents generate code at scale.
 	</p>
 	<p>
-		Baseline picks one syntax per concept, makes effects visible in every
-		signature, and proves constraints at compile time. You get code that's
-		easier to review, easier to trust, and easier to verify, whether a
-		person or a machine wrote it.
+		Baseline uses one syntax for each concept, so agents don't waste tokens
+		choosing between equivalent alternatives. Effects appear in every
+		function signature, making dependencies obvious. Constraints are checked
+		before the code runs. The compiler gives structured JSON diagnostics
+		that agents can parse and fix in a single pass.
 	</p>
 	<p class="small muted"><a href="/design">Read the full design &rarr;</a></p>
 
@@ -153,19 +157,7 @@
 	</p>
 </section>
 
-<section id="install">
-	<h2>Get Started</h2>
-	<pre><code>brew install baseline-lang/tap/baseline</code></pre>
-	<p>Write a program:</p>
-	<pre><code>{@html `<span class="annot">@prelude</span><span class="punct">(</span><span class="fn">script</span><span class="punct">)</span>
-
-<span class="kw">fn</span> <span class="fn">main!</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Console}</span> <span class="punct">()</span> <span class="op">=</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print!</span><span class="punct">(</span><span class="str">"Hello, World!"</span><span class="punct">)</span>`}</code></pre>
-	<p>Run it:</p>
-	<pre><code>{@html `$ blc run hello.bl
-Hello, World!`}</code></pre>
-	<p>
-		<a href="/guide" class="btn btn-primary">Quickstart</a>
-		<a href="https://github.com/baseline-lang/baseline" class="btn" style="margin-left:0.5rem">GitHub</a>
-	</p>
-</section>
+<p>
+	<a href="/guide" class="btn btn-primary">Get started</a>
+	<a href="https://github.com/baseline-lang/baseline" class="btn" style="margin-left:0.5rem">GitHub</a>
+</p>
