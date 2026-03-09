@@ -131,7 +131,7 @@ blc check app.bl --json --level full         <span class="comment"># SMT (~secon
 <section id="resources">
 	<h2>Resources</h2>
 	<ul>
-		<li><a href="https://github.com/manifestdocs/baseline">Source code</a> — GitHub</li>
+		<li><a href="https://github.com/baseline-lang/baseline">Source code</a> — GitHub</li>
 		<li><a href="/llms.txt">llms.txt</a> — compact reference for AI agent context windows</li>
 		<li><a href="/guide">Quickstart</a> — from install to web server</li>
 	</ul>

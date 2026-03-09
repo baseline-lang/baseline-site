@@ -31,7 +31,7 @@
 	<div class="container" style="display:flex;justify-content:space-between;align-items:center">
 		<span>&copy; Dawson Design Ltd.</span>
 		<span>
-			<a href="https://github.com/manifestdocs/baseline">GitHub</a>
+			<a href="https://github.com/baseline-lang/baseline">GitHub</a>
 			<a href="/llms.txt">llms.txt</a>
 		</span>
 	</div>

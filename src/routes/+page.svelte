@@ -149,7 +149,7 @@
 
 <section id="install">
 	<h2>Get Started</h2>
-	<pre><code>brew install baseline-lang/tap/blc</code></pre>
+	<pre><code>brew install baseline-lang/tap/baseline</code></pre>
 	<p>Write a program:</p>
 	<pre><code>{@html `<span class="annot">@prelude</span><span class="punct">(</span><span class="fn">script</span><span class="punct">)</span>
 
@@ -160,6 +160,6 @@
 Hello, World!`}</code></pre>
 	<p>
 		<a href="/guide" class="btn btn-primary">Quickstart</a>
-		<a href="https://github.com/manifestdocs/baseline" class="btn" style="margin-left:0.5rem">GitHub</a>
+		<a href="https://github.com/baseline-lang/baseline" class="btn" style="margin-left:0.5rem">GitHub</a>
 	</p>
 </section>
