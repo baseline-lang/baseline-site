@@ -26,17 +26,7 @@
 
 <section id="install">
 	<h2>Installation</h2>
-	<h3>Homebrew (macOS / Linux)</h3>
 	<pre><code>brew install baseline-lang/tap/baseline</code></pre>
-	<h3>Manual</h3>
-	<p>
-		Download the latest release from
-		<a href="https://github.com/baseline-lang/baseline/releases">GitHub Releases</a>,
-		extract, and add <code>blc</code> to your PATH.
-	</p>
-	<pre><code>{@html `tar xzf blc-v0.1-aarch64-apple-darwin.tar.gz
-mv blc /usr/local/bin/
-blc --version`}</code></pre>
 </section>
 
 <section id="hello">

@@ -1,20 +1,24 @@
-# Baseline v0.2
+# Baseline v0.3.2
 
-> Baseline is a strongly typed, effect-tracked functional programming language. Extension: `.bl`, compiler: `blc`. Design philosophy: "The type is the spec" (refinements encode correctness), "Effects are data" (side effects are explicit capabilities tracked by the compiler).
+> Baseline is a strongly typed, effect-tracked functional programming language. Extension: `.bl`, compiler: `blc`. Design philosophy: "The type is the spec" (refinements encode correctness), "Effects are data" (side effects are explicit capabilities tracked by the compiler). Baseline is experimental and not production-ready. GitHub: https://github.com/baseline-lang/baseline
 
-Important — LLMs commonly get these wrong:
+Important -- LLMs commonly get these wrong:
 - `!` means EFFECTS, not negation. Use `not` for boolean negation. `!valid` is a parse error.
 - NO method syntax. Write `String.to_upper(name)`, never `name.to_upper()`.
 - NO `+` for strings. Write `"Hello, ${name}!"`, never `"Hello, " + name`.
 - NO semicolons. Statements are separated by newlines.
 - NO `return` keyword. The last expression is the return value.
-- All bindings are immutable. No `var`, no mutation, no reassignment.
+- Bindings are immutable by default. Use `let mut` for mutable local variables.
 
 ## Rosetta Stone (Python -> Baseline)
 
 ### Variable Declaration
 Python:    `x = 10`
 Baseline:  `let x = 10`
+
+### Mutable Variable
+Python:    `x = 0; x = x + 1`
+Baseline:  `let mut x = 0` then `x = x + 1`
 
 ### Function Definition
 Python:    `def add(a: int, b: int) -> int: return a + b`
@@ -69,7 +73,7 @@ fn effectful!(x: Int) -> () = Console.println!("${x}")
 ```
 
 ### Effects
-Effectful functions end with `!`. Effect annotations are optional — the compiler infers them:
+Effectful functions end with `!`. Effect annotations are optional -- the compiler infers them:
 ```
 fn fetch!(url: String) -> Result<String, String> = {
   Log.info!("Fetching ${url}")
@@ -98,6 +102,8 @@ type HasName = { name: String, ..r }               // Open record (row polymorph
 ```
 let x = 42
 let name: String = "Alice"
+let mut counter = 0
+counter = counter + 1
 ```
 
 ### Conditionals
@@ -139,11 +145,17 @@ user.name                              // Field access
 { ..user, age: 31 }                   // Record update
 ```
 
+### Mutable Record Fields
+```
+let mut user = User { name: "Alice", age: 30 }
+user.age = 31                          // Mutable field assignment
+```
+
 ### Row Polymorphism
 ```
 fn greet(person: { name: String, ..r }) -> String = person.name
-greet({ name: "Alice", age: 30 })      // OK — extra fields absorbed by ..r
-greet({ name: "Bob" })                 // OK — exact match
+greet({ name: "Alice", age: 30 })      // OK -- extra fields absorbed by ..r
+greet({ name: "Bob" })                 // OK -- exact match
 ```
 
 ### String Interpolation
@@ -185,57 +197,61 @@ import Math *                      // Wildcard
 ## Key Rules
 
 1. Pure functions have NO `!` suffix and CANNOT use effects
-2. Effectful functions end with `!` — effect annotations are optional (inferred by compiler)
+2. Effectful functions end with `!` -- effect annotations are optional (inferred by compiler)
 3. Effects are called with `!`: `Console.println!("hello")`
 4. Pattern matching must be exhaustive
 5. `not` is a keyword for logical negation (not `!`)
 6. String interpolation uses `${expr}`
 7. Pipe `|>` inserts left value as first argument to right function
+8. `let` bindings are immutable by default; use `let mut` for mutable locals
 
 ## NOT Supported
 
-- No `class`/`extends`/`implements` — use records + sum types + effects
-- No `try`/`catch`/`throw` — use `Result<T, E>` with `?`
-- No `null`/`undefined`/`nil` — use `Option<T>`
-- No `async`/`await` — effects handle this
-- No `+` for string concat — use `"${a}${b}"`
-- No `!` for boolean negation — use `not`
-- No `value.method()` — use `Module.method(value)`
-- No mutable variables, no `return` keyword, no semicolons
+- No `class`/`extends`/`implements` -- use records + sum types + effects
+- No `try`/`catch`/`throw` -- use `Result<T, E>` with `?`
+- No `null`/`undefined`/`nil` -- use `Option<T>`
+- No `async`/`await` -- effects handle this
+- No `+` for string concat -- use `"${a}${b}"`
+- No `!` for boolean negation -- use `not`
+- No `value.method()` -- use `Module.method(value)`
+- No `return` keyword, no semicolons
 - No backward pipe `<|` or composition `>>`, `<<`
 
 ## Common Agent Mistakes
 
-WRONG: `user.to_string()`   -> RIGHT: `String.from(user)` — no method calls on values
-WRONG: `!valid`             -> RIGHT: `not valid` — `!` is for effects, `not` is for negation
-WRONG: `"a" + "b"`          -> RIGHT: `"${a}${b}"` — no `+` for string concatenation
-WRONG: `return x`           -> RIGHT: `x` — last expression is the return value
-WRONG: `let mut x = 0`      -> RIGHT: restructure with recursion or `List.fold`
+WRONG: `user.to_string()`   -> RIGHT: `String.from(user)` -- no method calls on values
+WRONG: `!valid`             -> RIGHT: `not valid` -- `!` is for effects, `not` is for negation
+WRONG: `"a" + "b"`          -> RIGHT: `"${a}${b}"` -- no `+` for string concatenation
+WRONG: `return x`           -> RIGHT: `x` -- last expression is the return value
+WRONG: `var x = 0`          -> RIGHT: `let mut x = 0` -- use `let mut` for mutable bindings
 WRONG: `try { risky() }`    -> RIGHT: `match risky()` with indented arms (NO braces)
-WRONG: `match x { ... }`    -> RIGHT: `match x` then newline + indented arms — NO curly braces
-WRONG: `Int.parse("42")`    -> RIGHT: `String.to_int("42")` — returns `Option<Int>`
-WRONG: `async fn fetch()`   -> RIGHT: `fn fetch!()` — effects replace async/await
-WRONG: `x; y; z`            -> RIGHT: `{ let _ = x  let _ = y  z }` — no semicolons
-WRONG: `fn foo { ... }`     -> RIGHT: `fn foo() -> Type = expr` — signature required
-WRONG: `import { foo }`     -> RIGHT: `import Foo { bar }` — module names are PascalCase
+WRONG: `match x { ... }`    -> RIGHT: `match x` then newline + indented arms -- NO curly braces
+WRONG: `Int.parse("42")`    -> RIGHT: `String.to_int("42")` -- returns `Option<Int>`
+WRONG: `async fn fetch()`   -> RIGHT: `fn fetch!()` -- effects replace async/await
+WRONG: `x; y; z`            -> RIGHT: `{ let _ = x  let _ = y  z }` -- no semicolons
+WRONG: `fn foo { ... }`     -> RIGHT: `fn foo() -> Type = expr` -- signature required
+WRONG: `import { foo }`     -> RIGHT: `import Foo { bar }` -- module names are PascalCase
 
 ## Standard Library
+
+38 modules, 260+ native functions across four prelude levels.
 
 ### Core (`@prelude(core)`)
 - **Int**: `to_string(Int) -> String`
 - **Option**: `unwrap`, `unwrap_or`, `is_some`, `is_none`, `map`, `flat_map`
 - **Result**: `unwrap`, `unwrap_or`, `is_ok`, `is_err`, `map`, `and_then`, `map_err`, `context`
-- **Map**: `empty`, `insert`, `get`, `remove`, `contains`, `keys`, `values`, `len`, `from_list`
+- **Map**: `empty`, `insert`, `get`, `remove`, `contains`, `keys`, `values`, `len`, `from_list`, `map`, `filter`, `fold`, `entries`
 - **Set**: `empty`, `insert`, `remove`, `contains`, `union`, `intersection`, `len`, `from_list`
 
-### Pure (`@prelude(pure)`) — adds data processing
-- **List**: `length`, `head`, `tail`, `reverse`, `sort`, `concat`, `contains`, `get`, `map`, `filter`, `fold`, `find`
+### Pure (`@prelude(pure)`) -- adds data processing
+- **List**: `length`, `head`, `tail`, `reverse`, `sort`, `concat`, `contains`, `get`, `get_or`, `set`, `slice`, `fill`, `map`, `filter`, `fold`, `find`
 - **String**: `length`, `to_upper`, `to_lower`, `trim`, `contains`, `starts_with`, `ends_with`, `split`, `join`, `slice`, `chars`, `char_at`, `index_of`, `replace`, `to_int`, `char_code`, `from_char_code`
-- **Math**: `abs`, `min`, `max`, `clamp`, `pow`
+- **Math**: `abs`, `min`, `max`, `clamp`, `pow`, `sqrt`, `sin`, `cos`, `atan2`, `floor`, `ceil`
+- **Float**: `from_int`, `format`
 - **Crypto**: `sha256`, `hmac_sha256`, `constant_time_eq`
 - **Json**: `parse`, `to_string`, `to_string_pretty`
 
-### Script (`@prelude(script)`) — adds I/O and system
+### Script (`@prelude(script)`) -- adds I/O and system
 - **Console**: `println!`, `print!`, `error!`, `read_line!`
 - **Fs**: `read!`, `write!`, `exists!`, `list_dir!`
 - **Env**: `get!`, `set!`
@@ -245,14 +261,14 @@ WRONG: `import { foo }`     -> RIGHT: `import Foo { bar }` — module names are 
 - **DateTime**: `now!`, `parse`, `to_string`, `add`, `diff`
 - **Random**: `int!`, `bool!`, `uuid!`
 
-### Server (`@prelude(server)`) — adds web framework
+### Server (`@prelude(server)`) -- adds web framework
 - **Router**: `new`, `get`, `post`, `put`, `delete`, `patch`, `any`, `group`, `use`
 - **Server**: `listen!`
 - **Response**: `ok`, `json`, `created`, `no_content`, `bad_request`, `not_found`, `error`, `status`, `with_header`, `redirect`
-- **Request**: `header`, `method`, `body_json`
+- **Request**: `header`, `method`, `body_json`, `param`
 - **Middleware**: `extract_bearer`, `extract_basic`, `cors_config`, `rate_limit_config`
 - **HttpError**: `bad_request`, `not_found`, `unauthorized`, `forbidden`, `internal`, and more
-- **Db**: `connect!`, `execute!`, `query!`, `require`, `optional`, `int_field`, `bool_field`, `first_row`, `has_rows`
+- **Db**: `connect!`, `execute!`, `query!`, `query_one!`, `query_map!`, `require`, `optional`, `int_field`, `bool_field`, `first_row`, `has_rows`
 
 ## Common Patterns
 
@@ -278,6 +294,13 @@ fn area(s: Shape) -> Float =
   match s
     Circle(r) -> 3.14159 * r * r
     Rectangle(w, h) -> w * h
+
+// Mutable local state
+fn count_positives(items: List<Int>) -> Int = {
+  let mut count = 0
+  List.map(items, |x| if x > 0 then count = count + 1 else ())
+  count
+}
 ```
 
 ## HTTP Server
@@ -293,6 +316,8 @@ fn main!() =
     |> Router.get("/health", health)
     |> Server.listen!(8080)
 ```
+
+The server runtime (v0.3.2) includes middleware chains, graceful shutdown (SIGINT/SIGTERM with 30s drain), per-IP rate limiting (token bucket, 100 req/s), gzip response compression, built-in CORS preflight handling, request size limits, structured request logging, a built-in `/__health` endpoint, and keep-alive with `SO_REUSEPORT` workers.
 
 ## Database
 
@@ -316,7 +341,7 @@ fn main!() = {
 | Level | Use Case | Includes |
 |-------|----------|---------|
 | `core` | Pure computation | Types, Option, Result, Map, Set |
-| `pure` | Data processing | + String, List, Int, Math, Json, Crypto |
+| `pure` | Data processing | + String, List, Int, Float, Math, Json, Crypto |
 | `script` | CLI scripting | + Console, Env, Fs, Http, Log, Time, DateTime, Random |
 | `server` | HTTP services | + Router, Server, Response, Request, Middleware, Db |
 
@@ -324,8 +349,29 @@ fn main!() = {
 ```
 blc check file.bl           # Type/effect check
 blc check file.bl --json    # JSON diagnostics
-blc run file.bl             # Compile and run (JIT)
+blc run file.bl             # Compile and run (Cranelift JIT)
 blc test file.bl            # Run inline tests
 blc test file.bl --json     # JSON test output
 blc fmt file.bl             # Format source
+blc docs                    # Search API documentation
 ```
+
+## Runtime
+
+Baseline compiles to native code via Cranelift JIT. There is no interpreter. Key optimizations:
+- Self-tail-call optimization (recursive calls compile to loops)
+- Tail recursion modulo constructor (TRMC)
+- Scalar replacement of aggregates (SRA) -- records decomposed into registers
+- Scalar RC elision for Int, Float, Bool, Unit
+- Aggressive function inlining
+- Fiber-based effect handlers with Perceus reuse analysis
+
+## Site
+
+- Home: https://baseline-lang.com
+- Design: https://baseline-lang.com/design
+- Quickstart: https://baseline-lang.com/guide
+- Learn: https://baseline-lang.com/learn
+- API Reference: https://baseline-lang.com/api
+- Changelog: https://baseline-lang.com/changelog
+- GitHub: https://github.com/baseline-lang/baseline
