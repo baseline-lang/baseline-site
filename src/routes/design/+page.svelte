@@ -10,6 +10,7 @@
 		<li><a href="#refinements-effects">Refinements + Effects</a></li>
 		<li><a href="#diagnostics">Machine-Actionable Diagnostics</a></li>
 		<li><a href="#landscape">Comparison</a></li>
+		<li><a href="#performance">Performance</a></li>
 		<li><a href="#limitations">Current Limitations</a></li>
 		<li><a href="#roadmap">Roadmap</a></li>
 	</ul>
@@ -261,39 +262,69 @@
 	</p>
 </section>
 
+<section id="performance">
+	<h2>Performance</h2>
+	<p>
+		Baseline compiles to native code via Cranelift JIT. All times are
+		median of 3 runs on Apple Silicon (arm64).
+	</p>
+
+	<h3>Hanabi Suite</h3>
+	<table>
+		<thead>
+			<tr><th>Benchmark</th><th>C -O2</th><th>Baseline</th><th>Node.js</th><th>Python</th></tr>
+		</thead>
+		<tbody>
+			<tr><td>nbody (5M)</td><td>0.21s</td><td>0.94s</td><td>0.53s</td><td>21.06s</td></tr>
+			<tr><td>binarytrees (18)</td><td>1.07s</td><td>4.63s</td><td>0.69s</td><td>5.09s</td></tr>
+			<tr><td>fasta (2.5M)</td><td>0.29s</td><td>0.68s</td><td>0.003s</td><td>4.50s</td></tr>
+			<tr><td>fannkuch (10)</td><td>0.006s</td><td>2.46s</td><td>1.97s</td><td>3.85s</td></tr>
+			<tr><td>spectral-norm (500)</td><td>0.004s</td><td>0.72s</td><td>0.07s</td><td>1.31s</td></tr>
+		</tbody>
+	</table>
+
+	<h3>CPU Micro-Benchmarks</h3>
+	<table>
+		<thead>
+			<tr><th>Benchmark</th><th>Rust</th><th>Go</th><th>Baseline</th><th>OCaml</th><th>Node.js</th><th>Python</th></tr>
+		</thead>
+		<tbody>
+			<tr><td>tak</td><td>0.098s</td><td>0.098s</td><td>0.084s</td><td>0.125s</td><td>0.353s</td><td>3.164s</td></tr>
+			<tr><td>fib (35)</td><td>0.044s</td><td>0.046s</td><td>0.047s</td><td>0.050s</td><td>0.146s</td><td>1.016s</td></tr>
+			<tr><td>divsum</td><td>0.060s</td><td>0.057s</td><td>0.059s</td><td>0.062s</td><td>0.142s</td><td>1.474s</td></tr>
+			<tr><td>primes</td><td>0.020s</td><td>0.018s</td><td>0.023s</td><td>0.009s</td><td>0.085s</td><td>0.424s</td></tr>
+			<tr><td>mergesort</td><td>0.011s</td><td>0.015s</td><td>0.021s</td><td>0.009s</td><td>0.075s</td><td>0.048s</td></tr>
+			<tr><td>mapbuild</td><td>0.014s</td><td>0.016s</td><td>0.027s</td><td>0.009s</td><td>0.080s</td><td>0.049s</td></tr>
+			<tr><td>treemap</td><td>0.119s</td><td>0.028s</td><td>0.320s</td><td>0.009s</td><td>0.107s</td><td>0.226s</td></tr>
+		</tbody>
+	</table>
+</section>
+
 <section id="limitations">
 	<h2>Current Limitations</h2>
 	<p>
-		Known constraints as of v0.3:
+		As of v0.3, these are the areas where Baseline is incomplete.
 	</p>
 	<ul>
 		<li>
 			<strong>Refinement types are integer intervals only.</strong>
-			<code>Int where self &gt; 0</code> works. String refinements (regex
-			patterns, length constraints on arbitrary types) are not yet
-			implemented. TypeScript + Zod does runtime validation with far
-			more expressive constraints right now.
+			<code>Int where self &gt; 0</code> works. String refinements
+			(regex patterns, length constraints) are not yet supported.
 		</li>
 		<li>
-			<strong>No concurrency.</strong> Structured concurrency is planned,
-			and the effect system is a natural fit for modeling async boundaries.
-			But today, Baseline has no async/await, no spawn, no parallelism.
+			<strong>No concurrency.</strong> There is no async/await, no
+			task spawning, no parallelism. Structured concurrency is on
+			the <a href="#roadmap">roadmap</a>.
 		</li>
 		<li>
-			<strong>38 modules is not an ecosystem.</strong> The standard library
-			covers core operations, HTTP, database, JSON, and more. Real users
-			will hit missing pieces within hours. This is not npm. This is not
-			crates.io.
-		</li>
-		<li>
-			<strong>"LLM-native" is unvalidated.</strong> The theory is sound:
-			structured diagnostics should reduce iterations to correctness. No
-			published benchmark proves this yet.
+			<strong>Small standard library.</strong> 38 modules covering
+			core operations, HTTP, database, and JSON. You will encounter
+			gaps. There is no package registry.
 		</li>
 		<li>
 			<strong>No embedding API.</strong> Baseline runs as a standalone
-			compiler and runtime. There is no C API, no way to embed it in a
-			host application, no resource limiting beyond effect declarations.
+			compiler and runtime. There is no C API or way to embed it in
+			a host application.
 		</li>
 	</ul>
 </section>
@@ -306,31 +337,36 @@
 	<ul>
 		<li>
 			<strong>Concurrency.</strong> Structured concurrency modeled through
-			the effect system. Async/await, task spawning, and parallelism.
+			the effect system: async/await, task spawning, supervision, and
+			capability-based fiber sandboxing.
+		</li>
+		<li>
+			<strong>Rust interop.</strong> FFI layer for calling Rust libraries
+			from Baseline and embedding Baseline in Rust applications.
+		</li>
+		<li>
+			<strong>Memory management.</strong> Perceus reuse analysis,
+			ownership-based RC elimination, and arena allocation for
+			request-scoped data.
+		</li>
+		<li>
+			<strong>Numeric performance.</strong> Monomorphization, unboxed
+			arrays, effect erasure, and SIMD emission for compute-heavy
+			workloads.
 		</li>
 		<li>
 			<strong>String and compound refinements.</strong> Regex patterns,
 			length constraints, and refinements on non-integer types.
 		</li>
 		<li>
-			<strong>Region-based memory.</strong> Perceus reference counting
-			with reuse analysis and arena allocation for request-scoped data.
+			<strong>Agent tooling.</strong> Agent convergence benchmarks,
+			<code>blc init</code> scaffolding, and Context7 distribution
+			for LLM context retrieval.
 		</li>
 		<li>
-			<strong>WebAssembly target.</strong> Compile to Wasm for browser
-			and edge runtimes.
-		</li>
-		<li>
-			<strong>Constrained generation.</strong> Compiler API for guiding
-			LLM token generation using type and effect information.
-		</li>
-		<li>
-			<strong>Extended standard library.</strong> Async I/O, streaming,
-			and broader ecosystem coverage.
-		</li>
-		<li>
-			<strong>SARIF diagnostics.</strong> Industry-standard format for
-			tool integration alongside the current JSON output.
+			<strong>Extended standard library.</strong> CLI framework, UUID
+			generation, checked arithmetic, async I/O, and broader
+			ecosystem coverage.
 		</li>
 	</ul>
 </section>
