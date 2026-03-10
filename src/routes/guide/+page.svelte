@@ -1,3 +1,13 @@
+<script lang="ts">
+	let copied = $state(false);
+
+	function copyInstall() {
+		navigator.clipboard.writeText('brew install baseline-lang/tap/baseline');
+		copied = true;
+		setTimeout(() => copied = false, 1500);
+	}
+</script>
+
 <svelte:head>
 	<title>Quickstart | Baseline</title>
 	<meta name="description" content="Learn Baseline from installation to building web servers, step by step." />
@@ -26,7 +36,21 @@
 
 <section id="install">
 	<h2>Installation</h2>
-	<pre><code>brew install baseline-lang/tap/baseline</code></pre>
+	<div class="copy-block">
+		<pre><code>brew install baseline-lang/tap/baseline</code></pre>
+		<button class="copy-btn" class:copied onclick={copyInstall}>
+			{#if copied}
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M3.5 8.5l3 3 6-7"/>
+				</svg>
+			{:else}
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+					<rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/>
+					<path d="M10.5 5.5V3a1.5 1.5 0 0 0-1.5-1.5H3A1.5 1.5 0 0 0 1.5 3v6A1.5 1.5 0 0 0 3 10.5h2.5"/>
+				</svg>
+			{/if}
+		</button>
+	</div>
 </section>
 
 <section id="hello">

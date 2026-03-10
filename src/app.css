@@ -179,6 +179,42 @@ pre code {
 .annot { font-weight: 600; color: var(--syn-annotation); }
 
 /* ================================================================
+   COPY BLOCK
+   ================================================================ */
+
+.copy-block {
+  position: relative;
+}
+
+.copy-block pre {
+  padding-right: 3rem;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  background: none;
+  border: none;
+  border-left: 1px solid var(--border);
+  color: var(--fg-dim);
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  color: var(--fg);
+  background: #e8e7e4;
+}
+
+.copy-btn.copied {
+  color: var(--syn-string);
+}
+
+/* ================================================================
    LAYOUT
    ================================================================ */
 
