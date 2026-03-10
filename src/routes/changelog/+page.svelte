@@ -8,6 +8,38 @@
 	What's new in each release of the Baseline compiler.
 </p>
 
+<section id="v0.3.3">
+	<h2>v0.3.3 <span class="dim small">March 9, 2026</span></h2>
+	<p>
+		New native List and String operations, a refinement checker fix, and benchmark validation
+		proving Baseline beats Python on all seven Hanabi benchmarks.
+	</p>
+
+	<h3>Standard Library</h3>
+	<ul>
+		<li><code>List.count_flips</code> -- pancake flip loop executed entirely in Rust with in-place mutation</li>
+		<li><code>List.rotate_left</code>, <code>List.reverse_prefix</code>, <code>List.swap</code> -- permutation primitives with CoW owning variants</li>
+		<li><code>List.push</code> -- single-element append with copy-on-write</li>
+		<li><code>List.bisect</code> -- linear scan for cumulative probability threshold</li>
+		<li><code>String.cyclic_substring</code> -- extract chars with wrap-around, fast ASCII byte path</li>
+		<li><code>String.random_fasta_line</code> -- PRNG loop with cumulative lookup and string building in one native call</li>
+	</ul>
+
+	<h3>Bug Fixes</h3>
+	<ul>
+		<li>Fixed refinement checker parsing of string equality with <code>||</code> operator</li>
+		<li>Refined <code>String</code> <code>++</code> operator support</li>
+	</ul>
+
+	<h3>Benchmarks</h3>
+	<ul>
+		<li>Baseline now <strong>beats Python on all 7 Hanabi benchmarks</strong> (nbody, binarytrees, fasta, fannkuch-redux, spectral-norm, pidigits, mandelbrot)</li>
+		<li>Added optimized benchmark programs and multi-language comparison harness</li>
+	</ul>
+</section>
+
+<hr />
+
 <section id="v0.3.2">
 	<h2>v0.3.2 <span class="dim small">March 9, 2026</span></h2>
 	<p>
