@@ -1,7 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pnpm dev:*)"
+      "Bash(pnpm dev:*)",
+      "Bash(npm run:)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "mcp__manifest__list_projects",
+      "mcp__manifest__render_feature_tree",
+      "mcp__manifest__list_versions",
+      "mcp__manifest__find_features"
     ]
-  }
+  },
+  "disabledMcpjsonServers": [
+    "baseline"
+  ]
 }
