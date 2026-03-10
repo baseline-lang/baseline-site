@@ -82,9 +82,10 @@ fn fetch!(url: String) -> Result<String, String> = {
 ```
 Explicit annotations are allowed for documentation or to restrict effects:
 ```
-fn fetch!(url: String) -> {Http, Log} Result<String, String> = ...
+fn fetch!(url: String) -> {Http} Result<String, String> = ...
 ```
 Pure functions (no `!`) cannot call effectful functions.
+Log and Time are ambient effects -- they don't need declaration and are always available.
 
 ### Types
 ```
