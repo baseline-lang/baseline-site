@@ -12,7 +12,7 @@
 	<h2>Syntax Summary</h2>
 	<pre><code>{@html `<span class="comment">-- Functions</span>
 <span class="kw">fn</span> <span class="fn">name</span><span class="punct">(</span><span class="fn">x</span><span class="op">:</span> <span class="type">Type</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="type">ReturnType</span> <span class="op">=</span> <span class="fn">body</span>
-<span class="kw">fn</span> <span class="fn">effectful!</span><span class="punct">(</span><span class="fn">x</span><span class="op">:</span> <span class="type">Type</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Effect}</span> <span class="type">ReturnType</span> <span class="op">=</span> <span class="fn">body</span>
+<span class="kw">fn</span> <span class="fn">effectful</span><span class="punct">(</span><span class="fn">x</span><span class="op">:</span> <span class="type">Type</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Effect}</span> <span class="type">ReturnType</span> <span class="op">=</span> <span class="fn">body</span>
 
 <span class="comment">-- Variables</span>
 <span class="kw">let</span> <span class="fn">x</span> <span class="op">=</span> <span class="num">42</span>
@@ -80,11 +80,11 @@
 	<table>
 		<tbody>
 			<tr><td><code>Router</code></td><td>new, get, post, put, delete, patch, any, group, resources, use</td></tr>
-			<tr><td><code>Server</code></td><td>listen!</td></tr>
+			<tr><td><code>Server</code></td><td>listen</td></tr>
 			<tr><td><code>Request</code></td><td>method, header, body_json, param, query, state</td></tr>
 			<tr><td><code>Response</code></td><td>ok, json, status, redirect, not_found, with_header</td></tr>
-			<tr><td><code>Sqlite</code></td><td>connect!, query!, execute!</td></tr>
-			<tr><td><code>Postgres</code></td><td>connect!, query!, execute!</td></tr>
+			<tr><td><code>Sqlite</code></td><td>connect, query, execute</td></tr>
+			<tr><td><code>Postgres</code></td><td>connect, query, execute</td></tr>
 		</tbody>
 	</table>
 </section>

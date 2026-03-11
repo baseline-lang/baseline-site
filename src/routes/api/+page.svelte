@@ -152,10 +152,10 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>println!</code></td><td><code>fn println!(String) -&gt; Unit</code></td><td>Print with newline</td></tr>
-			<tr><td><code>print!</code></td><td><code>fn print!(String) -&gt; Unit</code></td><td>Print without newline</td></tr>
-			<tr><td><code>error!</code></td><td><code>fn error!(String) -&gt; Unit</code></td><td>Print to stderr</td></tr>
-			<tr><td><code>read_line!</code></td><td><code>fn read_line!() -&gt; String</code></td><td>Read line from stdin</td></tr>
+			<tr><td><code>println</code></td><td><code>fn println(String) -&gt; Unit</code></td><td>Print with newline</td></tr>
+			<tr><td><code>print</code></td><td><code>fn print(String) -&gt; Unit</code></td><td>Print without newline</td></tr>
+			<tr><td><code>error</code></td><td><code>fn error(String) -&gt; Unit</code></td><td>Print to stderr</td></tr>
+			<tr><td><code>read_line</code></td><td><code>fn read_line() -&gt; String</code></td><td>Read line from stdin</td></tr>
 		</tbody>
 	</table>
 
@@ -164,12 +164,12 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>read!</code></td><td><code>fn read!(String) -&gt; String</code></td><td>Read file contents</td></tr>
-			<tr><td><code>write!</code></td><td><code>fn write!(String, String) -&gt; Unit</code></td><td>Write string to file</td></tr>
-			<tr><td><code>exists!</code></td><td><code>fn exists!(String) -&gt; Bool</code></td><td>Check if path exists</td></tr>
-			<tr><td><code>read_file!</code></td><td><code>fn read_file!(String) -&gt; String</code></td><td>Alias for read!</td></tr>
-			<tr><td><code>write_file!</code></td><td><code>fn write_file!(String, String) -&gt; Unit</code></td><td>Alias for write!</td></tr>
-			<tr><td><code>list_dir!</code></td><td><code>fn list_dir!(String) -&gt; List&lt;String&gt;</code></td><td>List directory entries</td></tr>
+			<tr><td><code>read</code></td><td><code>fn read(String) -&gt; String</code></td><td>Read file contents</td></tr>
+			<tr><td><code>write</code></td><td><code>fn write(String, String) -&gt; Unit</code></td><td>Write string to file</td></tr>
+			<tr><td><code>exists</code></td><td><code>fn exists(String) -&gt; Bool</code></td><td>Check if path exists</td></tr>
+			<tr><td><code>read_file</code></td><td><code>fn read_file(String) -&gt; String</code></td><td>Alias for read</td></tr>
+			<tr><td><code>write_file</code></td><td><code>fn write_file(String, String) -&gt; Unit</code></td><td>Alias for write</td></tr>
+			<tr><td><code>list_dir</code></td><td><code>fn list_dir(String) -&gt; List&lt;String&gt;</code></td><td>List directory entries</td></tr>
 		</tbody>
 	</table>
 
@@ -178,9 +178,9 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>get!</code></td><td><code>fn get!(String) -&gt; Option&lt;String&gt;</code></td><td>Read env var</td></tr>
-			<tr><td><code>set!</code></td><td><code>fn set!(String, String) -&gt; Unit</code></td><td>Set env var</td></tr>
-			<tr><td><code>args!</code></td><td><code>fn args!() -&gt; List&lt;String&gt;</code></td><td>Command-line arguments</td></tr>
+			<tr><td><code>get</code></td><td><code>fn get(String) -&gt; Option&lt;String&gt;</code></td><td>Read env var</td></tr>
+			<tr><td><code>set</code></td><td><code>fn set(String, String) -&gt; Unit</code></td><td>Set env var</td></tr>
+			<tr><td><code>args</code></td><td><code>fn args() -&gt; List&lt;String&gt;</code></td><td>Command-line arguments</td></tr>
 		</tbody>
 	</table>
 
@@ -191,12 +191,12 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>parallel!</code></td><td><code>fn parallel!(List&lt;() -&gt; T&gt;) -&gt; List&lt;T&gt;</code></td><td>Run thunks concurrently, collect all results</td></tr>
-			<tr><td><code>race!</code></td><td><code>fn race!(List&lt;() -&gt; T&gt;) -&gt; T</code></td><td>Run thunks concurrently, return first result</td></tr>
-			<tr><td><code>scatter_gather!</code></td><td><code>fn scatter_gather!(List&lt;() -&gt; T&gt;, (List&lt;T&gt;) -&gt; U) -&gt; U</code></td><td>Run thunks concurrently, apply gather function</td></tr>
-			<tr><td><code>delay!</code></td><td><code>fn delay!(Int, () -&gt; T) -&gt; T</code></td><td>Wait milliseconds, then execute thunk</td></tr>
-			<tr><td><code>interval!</code></td><td><code>fn interval!(Int, () -&gt; Unit) -&gt; Unit</code></td><td>Repeatedly execute thunk at interval</td></tr>
-			<tr><td><code>timeout!</code></td><td><code>fn timeout!(Int, () -&gt; T) -&gt; Result&lt;T, String&gt;</code></td><td>Run thunk with timeout, Err on expiry</td></tr>
+			<tr><td><code>parallel</code></td><td><code>fn parallel(List&lt;() -&gt; T&gt;) -&gt; List&lt;T&gt;</code></td><td>Run thunks concurrently, collect all results</td></tr>
+			<tr><td><code>race</code></td><td><code>fn race(List&lt;() -&gt; T&gt;) -&gt; T</code></td><td>Run thunks concurrently, return first result</td></tr>
+			<tr><td><code>scatter_gather</code></td><td><code>fn scatter_gather(List&lt;() -&gt; T&gt;, (List&lt;T&gt;) -&gt; U) -&gt; U</code></td><td>Run thunks concurrently, apply gather function</td></tr>
+			<tr><td><code>delay</code></td><td><code>fn delay(Int, () -&gt; T) -&gt; T</code></td><td>Wait milliseconds, then execute thunk</td></tr>
+			<tr><td><code>interval</code></td><td><code>fn interval(Int, () -&gt; Unit) -&gt; Unit</code></td><td>Repeatedly execute thunk at interval</td></tr>
+			<tr><td><code>timeout</code></td><td><code>fn timeout(Int, () -&gt; T) -&gt; Result&lt;T, String&gt;</code></td><td>Run thunk with timeout, Err on expiry</td></tr>
 		</tbody>
 	</table>
 
@@ -206,9 +206,9 @@
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
 			<tr><td><code>bounded</code></td><td><code>fn bounded(Int) -&gt; (Sender&lt;T&gt;, Receiver&lt;T&gt;)</code></td><td>Create bounded channel with capacity</td></tr>
-			<tr><td><code>send!</code></td><td><code>fn send!(Sender&lt;T&gt;, T) -&gt; Unit</code></td><td>Send value into channel</td></tr>
-			<tr><td><code>recv!</code></td><td><code>fn recv!(Receiver&lt;T&gt;) -&gt; Option&lt;T&gt;</code></td><td>Receive value, None if closed</td></tr>
-			<tr><td><code>close!</code></td><td><code>fn close!(Sender&lt;T&gt;) -&gt; Unit</code></td><td>Close channel</td></tr>
+			<tr><td><code>send</code></td><td><code>fn send(Sender&lt;T&gt;, T) -&gt; Unit</code></td><td>Send value into channel</td></tr>
+			<tr><td><code>recv</code></td><td><code>fn recv(Receiver&lt;T&gt;) -&gt; Option&lt;T&gt;</code></td><td>Receive value, None if closed</td></tr>
+			<tr><td><code>close</code></td><td><code>fn close(Sender&lt;T&gt;) -&gt; Unit</code></td><td>Close channel</td></tr>
 		</tbody>
 	</table>
 
@@ -217,7 +217,7 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>spawn!</code></td><td><code>fn spawn!(Scope, () -&gt; T) -&gt; Cell&lt;T&gt;</code></td><td>Spawn task in scope</td></tr>
+			<tr><td><code>spawn</code></td><td><code>fn spawn(Scope, () -&gt; T) -&gt; Cell&lt;T&gt;</code></td><td>Spawn task in scope</td></tr>
 		</tbody>
 	</table>
 
@@ -252,7 +252,7 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>now!</code></td><td><code>fn now!() -&gt; Int</code></td><td>Current Unix timestamp</td></tr>
+			<tr><td><code>now</code></td><td><code>fn now() -&gt; Int</code></td><td>Current Unix timestamp</td></tr>
 			<tr><td><code>parse</code></td><td><code>fn parse(String) -&gt; Result&lt;Int, String&gt;</code></td><td>Parse date string to timestamp</td></tr>
 			<tr><td><code>to_string</code></td><td><code>fn to_string(Int) -&gt; String</code></td><td>Format timestamp as ISO 8601</td></tr>
 			<tr><td><code>add</code></td><td><code>fn add(Int, Int) -&gt; Int</code></td><td>Add seconds to timestamp</td></tr>
@@ -320,10 +320,10 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>info!</code></td><td><code>fn info!(String) -&gt; Unit</code></td><td>Log at info level</td></tr>
-			<tr><td><code>warn!</code></td><td><code>fn warn!(String) -&gt; Unit</code></td><td>Log at warning level</td></tr>
-			<tr><td><code>error!</code></td><td><code>fn error!(String) -&gt; Unit</code></td><td>Log at error level</td></tr>
-			<tr><td><code>debug!</code></td><td><code>fn debug!(String) -&gt; Unit</code></td><td>Log at debug level</td></tr>
+			<tr><td><code>info</code></td><td><code>fn info(String) -&gt; Unit</code></td><td>Log at info level</td></tr>
+			<tr><td><code>warn</code></td><td><code>fn warn(String) -&gt; Unit</code></td><td>Log at warning level</td></tr>
+			<tr><td><code>error</code></td><td><code>fn error(String) -&gt; Unit</code></td><td>Log at error level</td></tr>
+			<tr><td><code>debug</code></td><td><code>fn debug(String) -&gt; Unit</code></td><td>Log at debug level</td></tr>
 		</tbody>
 	</table>
 
@@ -332,8 +332,8 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>now!</code></td><td><code>fn now!() -&gt; Int</code></td><td>Current Unix timestamp in milliseconds</td></tr>
-			<tr><td><code>sleep!</code></td><td><code>fn sleep!(Int) -&gt; Unit</code></td><td>Pause for milliseconds</td></tr>
+			<tr><td><code>now</code></td><td><code>fn now() -&gt; Int</code></td><td>Current Unix timestamp in milliseconds</td></tr>
+			<tr><td><code>sleep</code></td><td><code>fn sleep(Int) -&gt; Unit</code></td><td>Pause for milliseconds</td></tr>
 		</tbody>
 	</table>
 
@@ -342,10 +342,10 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>int!</code></td><td><code>fn int!(Int, Int) -&gt; Int</code></td><td>Random int in range (inclusive)</td></tr>
-			<tr><td><code>bool!</code></td><td><code>fn bool!() -&gt; Bool</code></td><td>Random boolean</td></tr>
-			<tr><td><code>uuid!</code></td><td><code>fn uuid!() -&gt; String</code></td><td>Random UUID v4</td></tr>
-			<tr><td><code>bytes!</code></td><td><code>fn bytes!(Int) -&gt; String</code></td><td>Random bytes as hex (max 1024)</td></tr>
+			<tr><td><code>int</code></td><td><code>fn int(Int, Int) -&gt; Int</code></td><td>Random int in range (inclusive)</td></tr>
+			<tr><td><code>bool</code></td><td><code>fn bool() -&gt; Bool</code></td><td>Random boolean</td></tr>
+			<tr><td><code>uuid</code></td><td><code>fn uuid() -&gt; String</code></td><td>Random UUID v4</td></tr>
+			<tr><td><code>bytes</code></td><td><code>fn bytes(Int) -&gt; String</code></td><td>Random bytes as hex (max 1024)</td></tr>
 		</tbody>
 	</table>
 
@@ -394,7 +394,7 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>listen!</code></td><td><code>fn listen!(Router, Int) -&gt; Unit</code></td><td>Start server on port</td></tr>
+			<tr><td><code>listen</code></td><td><code>fn listen(Router, Int) -&gt; Unit</code></td><td>Start server on port</td></tr>
 		</tbody>
 	</table>
 
@@ -451,11 +451,11 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>get!</code></td><td><code>fn get!(String) -&gt; Response</code></td><td>GET request</td></tr>
-			<tr><td><code>post!</code></td><td><code>fn post!(String, String) -&gt; Response</code></td><td>POST request with body</td></tr>
-			<tr><td><code>put!</code></td><td><code>fn put!(String, String) -&gt; Response</code></td><td>PUT request with body</td></tr>
-			<tr><td><code>delete!</code></td><td><code>fn delete!(String) -&gt; Response</code></td><td>DELETE request</td></tr>
-			<tr><td><code>request!</code></td><td><code>fn request!(RequestConfig) -&gt; Response</code></td><td>Custom request</td></tr>
+			<tr><td><code>get</code></td><td><code>fn get(String) -&gt; Response</code></td><td>GET request</td></tr>
+			<tr><td><code>post</code></td><td><code>fn post(String, String) -&gt; Response</code></td><td>POST request with body</td></tr>
+			<tr><td><code>put</code></td><td><code>fn put(String, String) -&gt; Response</code></td><td>PUT request with body</td></tr>
+			<tr><td><code>delete</code></td><td><code>fn delete(String) -&gt; Response</code></td><td>DELETE request</td></tr>
+			<tr><td><code>request</code></td><td><code>fn request(RequestConfig) -&gt; Response</code></td><td>Custom request</td></tr>
 		</tbody>
 	</table>
 
@@ -466,13 +466,13 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>connect!</code></td><td><code>fn connect!(String) -&gt; Unit</code></td><td>Open database file</td></tr>
-			<tr><td><code>execute!</code></td><td><code>fn execute!(String, List&lt;String&gt;) -&gt; Int</code></td><td>Execute statement</td></tr>
-			<tr><td><code>query!</code></td><td><code>fn query!(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Run query</td></tr>
-			<tr><td><code>query_one!</code></td><td><code>fn query_one!(String, List&lt;String&gt;) -&gt; Option&lt;Row&gt;</code></td><td>First row</td></tr>
-			<tr><td><code>query_as!</code></td><td><code>fn query_as!(Decoder, String, List&lt;String&gt;) -&gt; List&lt;T&gt;</code></td><td>Query with decoder</td></tr>
-			<tr><td><code>query_one_as!</code></td><td><code>fn query_one_as!(Decoder, String, List&lt;String&gt;) -&gt; Option&lt;T&gt;</code></td><td>First row with decoder</td></tr>
-			<tr><td><code>query_map!</code></td><td><code>fn query_map!(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Query for mapping</td></tr>
+			<tr><td><code>connect</code></td><td><code>fn connect(String) -&gt; Unit</code></td><td>Open database file</td></tr>
+			<tr><td><code>execute</code></td><td><code>fn execute(String, List&lt;String&gt;) -&gt; Int</code></td><td>Execute statement</td></tr>
+			<tr><td><code>query</code></td><td><code>fn query(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Run query</td></tr>
+			<tr><td><code>query_one</code></td><td><code>fn query_one(String, List&lt;String&gt;) -&gt; Option&lt;Row&gt;</code></td><td>First row</td></tr>
+			<tr><td><code>query_as</code></td><td><code>fn query_as(Decoder, String, List&lt;String&gt;) -&gt; List&lt;T&gt;</code></td><td>Query with decoder</td></tr>
+			<tr><td><code>query_one_as</code></td><td><code>fn query_one_as(Decoder, String, List&lt;String&gt;) -&gt; Option&lt;T&gt;</code></td><td>First row with decoder</td></tr>
+			<tr><td><code>query_map</code></td><td><code>fn query_map(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Query for mapping</td></tr>
 		</tbody>
 	</table>
 
@@ -481,13 +481,13 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>connect!</code></td><td><code>fn connect!(String) -&gt; Unit</code></td><td>Open connection</td></tr>
-			<tr><td><code>execute!</code></td><td><code>fn execute!(String, List&lt;String&gt;) -&gt; Int</code></td><td>Execute statement</td></tr>
-			<tr><td><code>query!</code></td><td><code>fn query!(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Run query</td></tr>
-			<tr><td><code>query_one!</code></td><td><code>fn query_one!(String, List&lt;String&gt;) -&gt; Option&lt;Row&gt;</code></td><td>First row</td></tr>
-			<tr><td><code>query_as!</code></td><td><code>fn query_as!(Decoder, String, List&lt;String&gt;) -&gt; List&lt;T&gt;</code></td><td>Query with decoder</td></tr>
-			<tr><td><code>query_one_as!</code></td><td><code>fn query_one_as!(Decoder, String, List&lt;String&gt;) -&gt; Option&lt;T&gt;</code></td><td>First row with decoder</td></tr>
-			<tr><td><code>query_map!</code></td><td><code>fn query_map!(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Query for mapping</td></tr>
+			<tr><td><code>connect</code></td><td><code>fn connect(String) -&gt; Unit</code></td><td>Open connection</td></tr>
+			<tr><td><code>execute</code></td><td><code>fn execute(String, List&lt;String&gt;) -&gt; Int</code></td><td>Execute statement</td></tr>
+			<tr><td><code>query</code></td><td><code>fn query(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Run query</td></tr>
+			<tr><td><code>query_one</code></td><td><code>fn query_one(String, List&lt;String&gt;) -&gt; Option&lt;Row&gt;</code></td><td>First row</td></tr>
+			<tr><td><code>query_as</code></td><td><code>fn query_as(Decoder, String, List&lt;String&gt;) -&gt; List&lt;T&gt;</code></td><td>Query with decoder</td></tr>
+			<tr><td><code>query_one_as</code></td><td><code>fn query_one_as(Decoder, String, List&lt;String&gt;) -&gt; Option&lt;T&gt;</code></td><td>First row with decoder</td></tr>
+			<tr><td><code>query_map</code></td><td><code>fn query_map(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Query for mapping</td></tr>
 		</tbody>
 	</table>
 
@@ -496,13 +496,13 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>connect!</code></td><td><code>fn connect!(String) -&gt; Unit</code></td><td>Open connection</td></tr>
-			<tr><td><code>execute!</code></td><td><code>fn execute!(String, List&lt;String&gt;) -&gt; Int</code></td><td>Execute statement</td></tr>
-			<tr><td><code>query!</code></td><td><code>fn query!(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Run query</td></tr>
-			<tr><td><code>query_one!</code></td><td><code>fn query_one!(String, List&lt;String&gt;) -&gt; Option&lt;Row&gt;</code></td><td>First row</td></tr>
-			<tr><td><code>query_as!</code></td><td><code>fn query_as!(Decoder, String, List&lt;String&gt;) -&gt; List&lt;T&gt;</code></td><td>Query with decoder</td></tr>
-			<tr><td><code>query_one_as!</code></td><td><code>fn query_one_as!(Decoder, String, List&lt;String&gt;) -&gt; Option&lt;T&gt;</code></td><td>First row with decoder</td></tr>
-			<tr><td><code>query_map!</code></td><td><code>fn query_map!(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Query for mapping</td></tr>
+			<tr><td><code>connect</code></td><td><code>fn connect(String) -&gt; Unit</code></td><td>Open connection</td></tr>
+			<tr><td><code>execute</code></td><td><code>fn execute(String, List&lt;String&gt;) -&gt; Int</code></td><td>Execute statement</td></tr>
+			<tr><td><code>query</code></td><td><code>fn query(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Run query</td></tr>
+			<tr><td><code>query_one</code></td><td><code>fn query_one(String, List&lt;String&gt;) -&gt; Option&lt;Row&gt;</code></td><td>First row</td></tr>
+			<tr><td><code>query_as</code></td><td><code>fn query_as(Decoder, String, List&lt;String&gt;) -&gt; List&lt;T&gt;</code></td><td>Query with decoder</td></tr>
+			<tr><td><code>query_one_as</code></td><td><code>fn query_one_as(Decoder, String, List&lt;String&gt;) -&gt; Option&lt;T&gt;</code></td><td>First row with decoder</td></tr>
+			<tr><td><code>query_map</code></td><td><code>fn query_map(String, List&lt;String&gt;) -&gt; List&lt;Row&gt;</code></td><td>Query for mapping</td></tr>
 		</tbody>
 	</table>
 
@@ -526,7 +526,7 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>migrate!</code></td><td><code>fn migrate!(String) -&gt; Result&lt;Int, String&gt;</code></td><td>Run migrations from directory</td></tr>
+			<tr><td><code>migrate</code></td><td><code>fn migrate(String) -&gt; Result&lt;Int, String&gt;</code></td><td>Run migrations from directory</td></tr>
 		</tbody>
 	</table>
 
@@ -549,10 +549,10 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>create!</code></td><td><code>fn create!(Record) -&gt; String</code></td><td>Create session, return ID</td></tr>
-			<tr><td><code>get!</code></td><td><code>fn get!(String) -&gt; Option&lt;Record&gt;</code></td><td>Get session data</td></tr>
-			<tr><td><code>set!</code></td><td><code>fn set!(String, String, T) -&gt; Unit</code></td><td>Update session field</td></tr>
-			<tr><td><code>delete!</code></td><td><code>fn delete!(String) -&gt; Unit</code></td><td>Remove session</td></tr>
+			<tr><td><code>create</code></td><td><code>fn create(Record) -&gt; String</code></td><td>Create session, return ID</td></tr>
+			<tr><td><code>get</code></td><td><code>fn get(String) -&gt; Option&lt;Record&gt;</code></td><td>Get session data</td></tr>
+			<tr><td><code>set</code></td><td><code>fn set(String, String, T) -&gt; Unit</code></td><td>Update session field</td></tr>
+			<tr><td><code>delete</code></td><td><code>fn delete(String) -&gt; Unit</code></td><td>Remove session</td></tr>
 		</tbody>
 	</table>
 
@@ -617,9 +617,9 @@
 	<table>
 		<thead><tr><th>Function</th><th>Signature</th><th>Description</th></tr></thead>
 		<tbody>
-			<tr><td><code>send!</code></td><td><code>fn send!(String) -&gt; Unit</code></td><td>Send message</td></tr>
-			<tr><td><code>receive!</code></td><td><code>fn receive!() -&gt; Result&lt;String, String&gt;</code></td><td>Receive message</td></tr>
-			<tr><td><code>close!</code></td><td><code>fn close!() -&gt; Unit</code></td><td>Close connection</td></tr>
+			<tr><td><code>send</code></td><td><code>fn send(String) -&gt; Unit</code></td><td>Send message</td></tr>
+			<tr><td><code>receive</code></td><td><code>fn receive() -&gt; Result&lt;String, String&gt;</code></td><td>Receive message</td></tr>
+			<tr><td><code>close</code></td><td><code>fn close() -&gt; Unit</code></td><td>Close connection</td></tr>
 		</tbody>
 	</table>
 </section>

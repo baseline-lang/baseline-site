@@ -120,22 +120,22 @@
 <section id="effects">
 	<h2>Effects</h2>
 	<p>
-		Side effects are declared in the type signature. The <code>!</code> suffix
-		marks a function as effectful, and the curly braces say which effects it uses.
-		The compiler enforces this, not a linter.
+		Side effects are declared in the type signature. The <code>{"{Effect}"}</code>
+		braces in the return type declare which effects a function uses. The compiler
+		enforces this, not a linter.
 	</p>
 	<pre><code>{@html `<span class="comment">// Pure: no effects, can be called from anywhere</span>
 <span class="kw">fn</span> <span class="fn">add</span><span class="punct">(</span><span class="fn">a</span><span class="op">:</span> <span class="type">Int</span><span class="punct">,</span> <span class="fn">b</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="type">Int</span> <span class="op">=</span> <span class="fn">a</span> <span class="op">+</span> <span class="fn">b</span>
 
 <span class="comment">// Effectful: requires {Console}</span>
-<span class="kw">fn</span> <span class="fn">log_add!</span><span class="punct">(</span><span class="fn">a</span><span class="op">:</span> <span class="type">Int</span><span class="punct">,</span> <span class="fn">b</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Console}</span> <span class="type">Int</span> <span class="op">=</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print!</span><span class="punct">(</span><span class="str">"\${a} + \${b}"</span><span class="punct">)</span>
+<span class="kw">fn</span> <span class="fn">log_add</span><span class="punct">(</span><span class="fn">a</span><span class="op">:</span> <span class="type">Int</span><span class="punct">,</span> <span class="fn">b</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Console}</span> <span class="type">Int</span> <span class="op">=</span>
+  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="str">"\${a} + \${b}"</span><span class="punct">)</span>
   <span class="fn">a</span> <span class="op">+</span> <span class="fn">b</span>
 
 <span class="comment">// Multiple effects: must declare all of them</span>
-<span class="kw">fn</span> <span class="fn">fetch_and_log!</span><span class="punct">(</span><span class="fn">url</span><span class="op">:</span> <span class="type">String</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Http, Console}</span> <span class="type">String</span> <span class="op">=</span>
-  <span class="kw">let</span> <span class="fn">body</span> <span class="op">=</span> <span class="type">Http</span><span class="punct">.</span><span class="fn">get!</span><span class="punct">(</span><span class="fn">url</span><span class="punct">)</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print!</span><span class="punct">(</span><span class="fn">body</span><span class="punct">)</span>
+<span class="kw">fn</span> <span class="fn">fetch_and_log</span><span class="punct">(</span><span class="fn">url</span><span class="op">:</span> <span class="type">String</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Http, Console}</span> <span class="type">String</span> <span class="op">=</span>
+  <span class="kw">let</span> <span class="fn">body</span> <span class="op">=</span> <span class="type">Http</span><span class="punct">.</span><span class="fn">get</span><span class="punct">(</span><span class="fn">url</span><span class="punct">)</span>
+  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="fn">body</span><span class="punct">)</span>
   <span class="fn">body</span>`}</code></pre>
 
 	<h3>Built-in Effects</h3>
@@ -169,12 +169,12 @@
 		function body. Only explicit annotations get checked against.
 	</p>
 	<pre><code>{@html `<span class="comment">// No annotation: effects inferred as {Console}</span>
-<span class="kw">fn</span> <span class="fn">helper!</span><span class="punct">(</span><span class="fn">msg</span><span class="op">:</span> <span class="type">String</span><span class="punct">)</span> <span class="op">=</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print!</span><span class="punct">(</span><span class="fn">msg</span><span class="punct">)</span>
+<span class="kw">fn</span> <span class="fn">helper</span><span class="punct">(</span><span class="fn">msg</span><span class="op">:</span> <span class="type">String</span><span class="punct">)</span> <span class="op">=</span>
+  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="fn">msg</span><span class="punct">)</span>
 
 <span class="comment">// Explicit annotation: compiler checks it</span>
-<span class="kw">fn</span> <span class="fn">main!</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Console}</span> <span class="type">Unit</span> <span class="op">=</span>
-  <span class="fn">helper!</span><span class="punct">(</span><span class="str">"hello"</span><span class="punct">)</span>`}</code></pre>
+<span class="kw">fn</span> <span class="fn">main</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Console}</span> <span class="type">Unit</span> <span class="op">=</span>
+  <span class="fn">helper</span><span class="punct">(</span><span class="str">"hello"</span><span class="punct">)</span>`}</code></pre>
 	<p>
 		In practice: skip annotations on internal helpers, add them at public
 		boundaries.
@@ -184,16 +184,16 @@
 <section id="transitive">
 	<h2>Transitive Effects</h2>
 	<p>
-		Effects bubble up. If <code>foo!</code> calls <code>bar!</code>, then
+		Effects bubble up. If <code>foo</code> calls <code>bar</code>, then
 		<code>foo</code> must declare everything <code>bar</code> uses too.
 	</p>
-	<pre><code>{@html `<span class="kw">fn</span> <span class="fn">bar!</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Http}</span> <span class="type">String</span> <span class="op">=</span>
-  <span class="type">Http</span><span class="punct">.</span><span class="fn">get!</span><span class="punct">(</span><span class="str">"/data"</span><span class="punct">)</span>
+	<pre><code>{@html `<span class="kw">fn</span> <span class="fn">bar</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Http}</span> <span class="type">String</span> <span class="op">=</span>
+  <span class="type">Http</span><span class="punct">.</span><span class="fn">get</span><span class="punct">(</span><span class="str">"/data"</span><span class="punct">)</span>
 
-<span class="comment">// Must include {Http} because bar! requires it</span>
-<span class="kw">fn</span> <span class="fn">foo!</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Http, Console}</span> <span class="type">Unit</span> <span class="op">=</span>
-  <span class="kw">let</span> <span class="fn">data</span> <span class="op">=</span> <span class="fn">bar!</span><span class="punct">()</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print!</span><span class="punct">(</span><span class="fn">data</span><span class="punct">)</span>`}</code></pre>
+<span class="comment">// Must include {Http} because bar requires it</span>
+<span class="kw">fn</span> <span class="fn">foo</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Http, Console}</span> <span class="type">Unit</span> <span class="op">=</span>
+  <span class="kw">let</span> <span class="fn">data</span> <span class="op">=</span> <span class="fn">bar</span><span class="punct">()</span>
+  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="fn">data</span><span class="punct">)</span>`}</code></pre>
 </section>
 
 <section id="sandboxing">
@@ -210,7 +210,7 @@
 	<h2>Syntax Summary</h2>
 	<pre><code>{@html `<span class="comment">// Functions</span>
 <span class="kw">fn</span> <span class="fn">name</span><span class="punct">(</span><span class="fn">x</span><span class="op">:</span> <span class="type">Type</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="type">ReturnType</span> <span class="op">=</span> <span class="fn">body</span>
-<span class="kw">fn</span> <span class="fn">effectful!</span><span class="punct">(</span><span class="fn">x</span><span class="op">:</span> <span class="type">Type</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Effect}</span> <span class="type">ReturnType</span> <span class="op">=</span> <span class="fn">body</span>
+<span class="kw">fn</span> <span class="fn">effectful</span><span class="punct">(</span><span class="fn">x</span><span class="op">:</span> <span class="type">Type</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Effect}</span> <span class="type">ReturnType</span> <span class="op">=</span> <span class="fn">body</span>
 
 <span class="comment">// Variables</span>
 <span class="kw">let</span> <span class="fn">x</span> <span class="op">=</span> <span class="num">42</span>

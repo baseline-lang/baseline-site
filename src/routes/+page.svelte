@@ -15,9 +15,9 @@
 	<li><strong>Safe by default:</strong> The compiler checks types, effects, and errors before running.</li>
 </ul>
 
-<pre><code>{@html `<span class="kw">fn</span> <span class="fn">fetch_user!</span><span class="punct">(</span><span class="fn">id</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Http, Console}</span> <span class="type">Result&lt;String, String&gt;</span> <span class="op">=</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print!</span><span class="punct">(</span><span class="str">"Fetching user \${id}"</span><span class="punct">)</span>
-  <span class="kw">let</span> <span class="fn">response</span> <span class="op">=</span> <span class="type">Http</span><span class="punct">.</span><span class="fn">get!</span><span class="punct">(</span><span class="str">"/users/\${id}"</span><span class="punct">)</span><span class="op">?</span>
+<pre><code>{@html `<span class="kw">fn</span> <span class="fn">fetch_user</span><span class="punct">(</span><span class="fn">id</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Http, Console}</span> <span class="type">Result&lt;String, String&gt;</span> <span class="op">=</span>
+  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="str">"Fetching user \${id}"</span><span class="punct">)</span>
+  <span class="kw">let</span> <span class="fn">response</span> <span class="op">=</span> <span class="type">Http</span><span class="punct">.</span><span class="fn">get</span><span class="punct">(</span><span class="str">"/users/\${id}"</span><span class="punct">)</span><span class="op">?</span>
   <span class="kw">match</span> <span class="fn">response</span><span class="punct">.</span><span class="fn">status</span>
     <span class="num">200</span> <span class="op">-&gt;</span> <span class="type">Ok</span><span class="punct">(</span><span class="fn">response</span><span class="punct">.</span><span class="fn">body</span><span class="punct">)</span>
     <span class="num">404</span> <span class="op">-&gt;</span> <span class="type">Err</span><span class="punct">(</span><span class="str">"User not found"</span><span class="punct">)</span>
@@ -25,9 +25,9 @@
 
 <p>You can read this function's entire contract from the first line:</p>
 <ul>
-	<li>The <code>!</code> suffix on function names means they have side effects, and <code>{"{Http, Console}"}</code> declares exactly which ones. This function can talk to the network and print output, nothing else.</li>
+	<li>The <code>{"{Http, Console}"}</code> annotation declares exactly which side effects this function uses. It can talk to the network and print output, nothing else.</li>
 	<li>It returns <code>Result&lt;String, String&gt;</code> instead of a bare <code>String</code>, so the caller knows this function can fail and they must handle the happy path and error cases.</li>
-	<li>The <code>?</code> after <code>Http.get!</code> passes errors up to the caller automatically, so you don't write error-handling boilerplate in every function.</li>
+	<li>The <code>?</code> after <code>Http.get</code> passes errors up to the caller automatically, so you don't write error-handling boilerplate in every function.</li>
 </ul>
 <p class="muted small" style="max-width: none">Remove <code>{"{Http}"}</code> from the declaration and the compiler rejects the program.</p>
 
@@ -94,8 +94,8 @@
 <span class="kw">fn</span> <span class="fn">add</span><span class="punct">(</span><span class="fn">a</span><span class="op">:</span> <span class="type">Int</span><span class="punct">,</span> <span class="fn">b</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="type">Int</span> <span class="op">=</span> <span class="fn">a</span> <span class="op">+</span> <span class="fn">b</span>
 
 <span class="comment">// Effectful: declares exactly what it does</span>
-<span class="kw">fn</span> <span class="fn">save!</span><span class="punct">(</span><span class="fn">data</span><span class="op">:</span> <span class="type">String</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Fs}</span> <span class="type">Unit</span> <span class="op">=</span>
-  <span class="type">Fs</span><span class="punct">.</span><span class="fn">write!</span><span class="punct">(</span><span class="str">"out.txt"</span><span class="punct">,</span> <span class="fn">data</span><span class="punct">)</span>`}</code></pre>
+<span class="kw">fn</span> <span class="fn">save</span><span class="punct">(</span><span class="fn">data</span><span class="op">:</span> <span class="type">String</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Fs}</span> <span class="type">Unit</span> <span class="op">=</span>
+  <span class="type">Fs</span><span class="punct">.</span><span class="fn">write</span><span class="punct">(</span><span class="str">"out.txt"</span><span class="punct">,</span> <span class="fn">data</span><span class="punct">)</span>`}</code></pre>
 	<p>Built-in effects:</p>
 	<table>
 		<tbody>

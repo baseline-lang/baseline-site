@@ -8,6 +8,33 @@
 	What's new in each release of the Baseline compiler.
 </p>
 
+<section id="v0.3.4">
+	<h2>v0.3.4 <span class="dim small">March 11, 2026</span></h2>
+	<p>
+		Bangless syntax: the <code>!</code> suffix has been removed from effectful function names.
+		The compiler now uses semantic effect detection -- effects are determined from the
+		function body and the <code>{"{Effect}"}</code> annotation in the return type, not from
+		naming conventions.
+	</p>
+
+	<h3>Language</h3>
+	<ul>
+		<li>Removed <code>!</code> suffix requirement from effectful function names (RFC-0001)</li>
+		<li>Compiler now detects effects semantically from function bodies</li>
+		<li>Effect annotations <code>{"{Console}"}</code>, <code>{"{Http}"}</code>, etc. remain unchanged</li>
+		<li>Pure functions (no effects) are unchanged</li>
+	</ul>
+
+	<h3>Migration</h3>
+	<ul>
+		<li>All standard library function names updated: <code>Console.print()</code> replaces <code>Console.print!()</code></li>
+		<li>All example files migrated to bangless syntax</li>
+		<li>Editor extensions updated with new syntax highlighting</li>
+	</ul>
+</section>
+
+<hr />
+
 <section id="v0.3.3">
 	<h2>v0.3.3 <span class="dim small">March 9, 2026</span></h2>
 	<p>
@@ -175,7 +202,7 @@
 	<ul>
 		<li>Generic SQL backend with <code>Sqlite</code>, <code>Postgres</code>, and <code>Mysql</code> connectors</li>
 		<li>Typed database rows with <code>SqlValue</code>, <code>Row</code>, and typed accessors</li>
-		<li><code>query_map!</code> HOF and <code>query_one!</code> for all backends</li>
+		<li><code>query_map</code> HOF and <code>query_one</code> for all backends</li>
 		<li>Parameterized queries and migration runner</li>
 	</ul>
 

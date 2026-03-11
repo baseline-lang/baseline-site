@@ -58,14 +58,14 @@
 	<p>Create <code>hello.bl</code>:</p>
 	<pre><code>{@html `<span class="annot">@prelude</span><span class="punct">(</span><span class="fn">script</span><span class="punct">)</span>
 
-<span class="kw">fn</span> <span class="fn">main!</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Console}</span> <span class="punct">()</span> <span class="op">=</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print!</span><span class="punct">(</span><span class="str">"Hello, World!"</span><span class="punct">)</span>`}</code></pre>
+<span class="kw">fn</span> <span class="fn">main</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Console}</span> <span class="punct">()</span> <span class="op">=</span>
+  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="str">"Hello, World!"</span><span class="punct">)</span>`}</code></pre>
 	<pre><code>{@html `$ blc run hello.bl
 Hello, World!`}</code></pre>
 	<p>
 		<code>@prelude(script)</code> loads the standard library.
-		The <code>!</code> suffix means this function has side effects, and
-		<code>{"{Console}"}</code> says which ones.
+		The <code>{"{Console}"}</code> annotation declares which side effects this
+		function uses. The compiler detects effects from the function body.
 	</p>
 </section>
 
@@ -118,21 +118,20 @@ Hello, World!`}</code></pre>
 		The curly braces <code>{"{...}"}</code> after <code>-&gt;</code> declare which
 		side effects a function uses. Pure functions don't have them at all.
 	</p>
-	<pre><code>{@html `<span class="comment">// Pure: no braces, no ! suffix</span>
+	<pre><code>{@html `<span class="comment">// Pure: no effect braces</span>
 <span class="kw">fn</span> <span class="fn">add</span><span class="punct">(</span><span class="fn">a</span><span class="op">:</span> <span class="type">Int</span><span class="punct">,</span> <span class="fn">b</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="type">Int</span> <span class="op">=</span> <span class="fn">a</span> <span class="op">+</span> <span class="fn">b</span>
 
-<span class="comment">// Effectful: ! suffix + braces declare effects</span>
-<span class="kw">fn</span> <span class="fn">main!</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Console}</span> <span class="punct">()</span> <span class="op">=</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print!</span><span class="punct">(</span><span class="str">"hello"</span><span class="punct">)</span>
+<span class="comment">// Effectful: braces declare effects</span>
+<span class="kw">fn</span> <span class="fn">main</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Console}</span> <span class="punct">()</span> <span class="op">=</span>
+  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="str">"hello"</span><span class="punct">)</span>
 
-<span class="comment">// Internal effectful: effects can be inferred</span>
-<span class="kw">fn</span> <span class="fn">log_request!</span><span class="punct">(</span><span class="fn">req</span><span class="punct">)</span> <span class="op">=</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print!</span><span class="punct">(</span><span class="fn">req</span><span class="punct">.</span><span class="fn">path</span><span class="punct">)</span>`}</code></pre>
+<span class="comment">// Internal: effects inferred automatically</span>
+<span class="kw">fn</span> <span class="fn">log_request</span><span class="punct">(</span><span class="fn">req</span><span class="punct">)</span> <span class="op">=</span>
+  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="fn">req</span><span class="punct">.</span><span class="fn">path</span><span class="punct">)</span>`}</code></pre>
 	<p>
-		The rule: exported and public functions must declare their effects explicitly.
-		Private helpers get them inferred automatically. The <code>!</code> suffix
-		always tells you a function has side effects, and the braces tell the compiler
-		<em>which</em> ones.
+		The rule: exported and public functions must declare their effects explicitly
+		with <code>{"{Effect}"}</code> braces in the return type. Private helpers get
+		them inferred automatically from the function body.
 	</p>
 </section>
 
@@ -218,11 +217,11 @@ Hello, World!`}</code></pre>
   <span class="kw">let</span> <span class="fn">id</span> <span class="op">=</span> <span class="type">Request</span><span class="punct">.</span><span class="fn">param</span><span class="punct">(</span><span class="fn">req</span><span class="punct">,</span> <span class="str">"id"</span><span class="punct">)</span>
   <span class="type">Response</span><span class="punct">.</span><span class="fn">json</span><span class="punct">(</span>{ <span class="fn">id</span><span class="op">:</span> <span class="fn">id</span><span class="punct">,</span> <span class="fn">name</span><span class="op">:</span> <span class="str">"Alice"</span> }<span class="punct">)</span>
 
-<span class="kw">fn</span> <span class="fn">main!</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Http}</span> <span class="type">Unit</span> <span class="op">=</span>
+<span class="kw">fn</span> <span class="fn">main</span><span class="punct">()</span> <span class="op">-&gt;</span> <span class="effect">{Http}</span> <span class="type">Unit</span> <span class="op">=</span>
   <span class="kw">let</span> <span class="fn">app</span> <span class="op">=</span> <span class="type">Router</span><span class="punct">.</span><span class="fn">new</span><span class="punct">()</span>
     <span class="op">|&gt;</span> <span class="type">Router</span><span class="punct">.</span><span class="fn">get</span><span class="punct">(</span><span class="str">"/users"</span><span class="punct">,</span> <span class="fn">list_users</span><span class="punct">)</span>
     <span class="op">|&gt;</span> <span class="type">Router</span><span class="punct">.</span><span class="fn">get</span><span class="punct">(</span><span class="str">"/users/:id"</span><span class="punct">,</span> <span class="fn">get_user</span><span class="punct">)</span>
-  <span class="type">Server</span><span class="punct">.</span><span class="fn">listen!</span><span class="punct">(</span><span class="fn">app</span><span class="punct">,</span> <span class="num">3000</span><span class="punct">)</span>`}</code></pre>
+  <span class="type">Server</span><span class="punct">.</span><span class="fn">listen</span><span class="punct">(</span><span class="fn">app</span><span class="punct">,</span> <span class="num">3000</span><span class="punct">)</span>`}</code></pre>
 </section>
 
 <section id="next">

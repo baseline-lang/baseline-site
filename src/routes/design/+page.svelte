@@ -47,7 +47,7 @@
 	<pre><code>{@html `<span class="kw">type</span> <span class="type">Port</span> <span class="op">=</span> <span class="type">Int</span> <span class="kw">where</span> <span class="num">1</span> <span class="op">&lt;=</span> <span class="fn">self</span> <span class="op">&lt;=</span> <span class="num">65535</span>
 <span class="kw">type</span> <span class="type">Percentage</span> <span class="op">=</span> <span class="type">Int</span> <span class="kw">where</span> <span class="fn">self</span> <span class="op">&gt;=</span> <span class="num">0</span> <span class="op">&amp;&amp;</span> <span class="fn">self</span> <span class="op">&lt;=</span> <span class="num">100</span>
 
-<span class="kw">fn</span> <span class="fn">listen!</span><span class="punct">(</span><span class="fn">port</span><span class="op">:</span> <span class="type">Port</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Net}</span> <span class="type">Server</span> <span class="op">=</span>
+<span class="kw">fn</span> <span class="fn">listen</span><span class="punct">(</span><span class="fn">port</span><span class="op">:</span> <span class="type">Port</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Net}</span> <span class="type">Server</span> <span class="op">=</span>
   <span class="comment">// port is guaranteed 1..65535. No validation code needed.</span>
   ...`}</code></pre>
 	<p>
@@ -94,10 +94,10 @@
 		compile time: <em>is this function honest about what it accepts AND what
 		it does?</em>
 	</p>
-	<pre><code>{@html `<span class="kw">fn</span> <span class="fn">agent_task!</span><span class="punct">(</span><span class="fn">input</span><span class="op">:</span> <span class="type">Input</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Log, Db.read}</span> <span class="type">Output</span> <span class="op">=</span>
-  <span class="type">Log</span><span class="punct">.</span><span class="fn">info!</span><span class="punct">(</span><span class="str">"Processing \${input}"</span><span class="punct">)</span>
-  <span class="kw">let</span> <span class="fn">data</span> <span class="op">=</span> <span class="type">Db</span><span class="punct">.</span><span class="fn">query!</span><span class="punct">(</span><span class="str">"SELECT * FROM items"</span><span class="punct">)</span>
-  <span class="comment">// Fs.delete!("important.txt")  COMPILE ERROR: Fs not in effect set</span>
+	<pre><code>{@html `<span class="kw">fn</span> <span class="fn">agent_task</span><span class="punct">(</span><span class="fn">input</span><span class="op">:</span> <span class="type">Input</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Log, Db.read}</span> <span class="type">Output</span> <span class="op">=</span>
+  <span class="type">Log</span><span class="punct">.</span><span class="fn">info</span><span class="punct">(</span><span class="str">"Processing \${input}"</span><span class="punct">)</span>
+  <span class="kw">let</span> <span class="fn">data</span> <span class="op">=</span> <span class="type">Db</span><span class="punct">.</span><span class="fn">query</span><span class="punct">(</span><span class="str">"SELECT * FROM items"</span><span class="punct">)</span>
+  <span class="comment">// Fs.delete("important.txt")  COMPILE ERROR: Fs not in effect set</span>
   <span class="fn">transform</span><span class="punct">(</span><span class="fn">data</span><span class="punct">)</span>`}</code></pre>
 	<p>
 		This is compile-time capability enforcement. The untrusted code never runs
@@ -158,13 +158,13 @@
 	<pre><code>{@html `$ blc check app.bl --json`}</code></pre>
 	<pre><code>{@html `{
   <span class="str">"code"</span>: <span class="str">"CAP_001"</span>,
-  <span class="str">"message"</span>: <span class="str">"Unauthorized Side Effect: 'Http.get!'"</span>,
-  <span class="str">"context"</span>: <span class="str">"Function 'process!' declares effects {Log}, but calls 'Http.get!' which requires {Http}."</span>,
+  <span class="str">"message"</span>: <span class="str">"Unauthorized Side Effect: 'Http.get'"</span>,
+  <span class="str">"context"</span>: <span class="str">"Function 'process' declares effects {Log}, but calls 'Http.get' which requires {Http}."</span>,
   <span class="str">"suggestions"</span>: [{
     <span class="str">"strategy"</span>: <span class="str">"escalate_capability"</span>,
     <span class="str">"patch"</span>: {
-      <span class="str">"original_text"</span>: <span class="str">"fn process!(data: String) -> {Log} String"</span>,
-      <span class="str">"replacement_text"</span>: <span class="str">"fn process!(data: String) -> {Log, Http} String"</span>
+      <span class="str">"original_text"</span>: <span class="str">"fn process(data: String) -> {Log} String"</span>,
+      <span class="str">"replacement_text"</span>: <span class="str">"fn process(data: String) -> {Log, Http} String"</span>
     }
   }]
 }`}</code></pre>
