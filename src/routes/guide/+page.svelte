@@ -101,14 +101,14 @@ Hello, World!`}</code></pre>
 <section id="annotations">
 	<h2>When Do I Need Type Annotations?</h2>
 	<p>
-		Baseline uses type inference. You must annotate exported and effectful functions,
-		but can omit types on local variables, lambdas, and private helpers.
+		Function parameters always need types. Baseline infers local variables,
+		lambdas, and return types, so private helpers can skip the return type.
 	</p>
-	<pre><code>{@html `<span class="comment">// Exported: full annotations required</span>
+	<pre><code>{@html `<span class="comment">// Exported: annotate the full signature</span>
 <span class="kw">export fn</span> <span class="fn">add</span><span class="punct">(</span><span class="fn">a</span><span class="op">:</span> <span class="type">Int</span><span class="punct">,</span> <span class="fn">b</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="type">Int</span> <span class="op">=</span> <span class="fn">a</span> <span class="op">+</span> <span class="fn">b</span>
 
-<span class="comment">// Private helper: types inferred</span>
-<span class="kw">fn</span> <span class="fn">double</span><span class="punct">(</span><span class="fn">x</span><span class="punct">)</span> <span class="op">=</span> <span class="fn">x</span> <span class="op">*</span> <span class="num">2</span>
+<span class="comment">// Private helper: return type inferred</span>
+<span class="kw">fn</span> <span class="fn">double</span><span class="punct">(</span><span class="fn">x</span><span class="op">:</span> <span class="type">Int</span><span class="punct">)</span> <span class="op">=</span> <span class="fn">x</span> <span class="op">*</span> <span class="num">2</span>
 
 <span class="comment">// Local variables and lambdas: inferred</span>
 <span class="kw">let</span> <span class="fn">names</span> <span class="op">=</span> <span class="type">List</span><span class="punct">.</span><span class="fn">map</span><span class="punct">(</span><span class="fn">users</span><span class="punct">,</span> <span class="op">|</span><span class="fn">u</span><span class="op">|</span> <span class="fn">u</span><span class="punct">.</span><span class="fn">name</span><span class="punct">)</span>`}</code></pre>
@@ -126,12 +126,12 @@ Hello, World!`}</code></pre>
   <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="str">"hello"</span><span class="punct">)</span>
 
 <span class="comment">// Internal: effects inferred automatically</span>
-<span class="kw">fn</span> <span class="fn">log_request</span><span class="punct">(</span><span class="fn">req</span><span class="punct">)</span> <span class="op">=</span>
-  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="fn">req</span><span class="punct">.</span><span class="fn">path</span><span class="punct">)</span>`}</code></pre>
+<span class="kw">fn</span> <span class="fn">log_request</span><span class="punct">(</span><span class="fn">path</span><span class="op">:</span> <span class="type">String</span><span class="punct">)</span> <span class="op">=</span>
+  <span class="type">Console</span><span class="punct">.</span><span class="fn">print</span><span class="punct">(</span><span class="fn">path</span><span class="punct">)</span>`}</code></pre>
 	<p>
-		The rule: exported and public functions must declare their effects explicitly
-		with <code>{"{Effect}"}</code> braces in the return type. Private helpers get
-		them inferred automatically from the function body.
+		The convention: exported functions declare their effects with
+		<code>{"{Effect}"}</code> braces in the return type, so callers see them.
+		The compiler infers effects for any function without braces.
 	</p>
 </section>
 

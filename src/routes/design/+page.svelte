@@ -137,7 +137,7 @@
 			</tr>
 			<tr>
 				<td>Baseline</td>
-				<td>Integer intervals (growing)</td>
+				<td>Int intervals, String patterns</td>
 				<td>Declared + transitively checked</td>
 				<td><strong>Yes</strong></td>
 			</tr>
@@ -307,14 +307,16 @@
 	</p>
 	<ul>
 		<li>
-			<strong>Refinement types are integer intervals only.</strong>
-			<code>Int where self &gt; 0</code> works. String refinements
-			(regex patterns, length constraints) are not yet supported.
+			<strong>Refinements cover Int and String only.</strong>
+			<code>Int where self &gt; 0</code> works, but Int refinements combine
+			conditions with <code>&amp;&amp;</code> only. String refinements
+			support regex, length, prefix, suffix, and equality checks.
 		</li>
 		<li>
-			<strong>No concurrency.</strong> There is no async/await, no
-			task spawning, no parallelism. Structured concurrency is on
-			the <a href="#roadmap">roadmap</a>.
+			<strong>Single-threaded concurrency.</strong> <code>Scope.spawn</code>,
+			<code>Channel</code>, and <code>Async.parallel</code> run tasks as
+			cooperative fibers on one thread. There is no async/await and no
+			multi-core parallelism.
 		</li>
 		<li>
 			<strong>Small standard library.</strong> 38 modules covering
@@ -337,8 +339,8 @@
 	<ul>
 		<li>
 			<strong>Concurrency.</strong> Structured concurrency modeled through
-			the effect system: async/await, task spawning, supervision, and
-			capability-based fiber sandboxing.
+			the effect system: supervision and capability-based fiber
+			sandboxing.
 		</li>
 		<li>
 			<strong>Rust interop.</strong> FFI layer for calling Rust libraries
@@ -355,17 +357,17 @@
 			workloads.
 		</li>
 		<li>
-			<strong>String and compound refinements.</strong> Regex patterns,
-			length constraints, and refinements on non-integer types.
+			<strong>Compound refinements.</strong> <code>||</code> in Int
+			refinements, and refinements on types beyond Int and String.
 		</li>
 		<li>
-			<strong>Agent tooling.</strong> Agent convergence benchmarks,
-			<code>blc init</code> scaffolding, and Context7 distribution
+			<strong>Agent tooling.</strong> Agent convergence benchmarks
+			and Context7 distribution
 			for LLM context retrieval.
 		</li>
 		<li>
-			<strong>Extended standard library.</strong> CLI framework, UUID
-			generation, checked arithmetic, async I/O, and broader
+			<strong>Extended standard library.</strong> CLI framework, checked
+			arithmetic, async I/O, and broader
 			ecosystem coverage.
 		</li>
 	</ul>

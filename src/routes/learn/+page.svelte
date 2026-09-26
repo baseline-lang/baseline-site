@@ -63,7 +63,7 @@
 		<code>where</code> is only for refinements. You can use <code>&gt;</code>,
 		<code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>==</code>,
 		<code>!=</code>, and combine them with <code>&amp;&amp;</code>.
-		No <code>||</code> yet. That's coming in v0.2.
+		Int refinements don't support <code>||</code> yet. String refinements do.
 	</p>
 </section>
 
@@ -311,7 +311,7 @@ blc check app.bl --json --level full         <span class="comment"># SMT (~secon
 		<li>No <code>+</code> for string concatenation: use <code>"$&#123;a&#125;$&#123;b&#125;"</code></li>
 		<li>No <code>!</code> for boolean negation: use <code>not</code></li>
 		<li>No <code>value.method()</code>: use <code>Module.method(value)</code></li>
-		<li>No mutable variables, no <code>return</code> keyword, no semicolons</li>
+		<li>No <code>return</code> keyword or semicolons. Variables are immutable unless you declare them with <code>let mut</code></li>
 	</ul>
 </section>
 

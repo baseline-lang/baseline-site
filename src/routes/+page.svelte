@@ -49,7 +49,7 @@
 	</p>
 	<p>
 		Baseline uses one syntax for each concept, so agents don't waste tokens
-		choosing between equivalent alternatives. Effects appear in every
+		choosing between equivalent alternatives. Declared effects sit in the
 		function signature, making dependencies obvious. Constraints are checked
 		before the code runs. The compiler gives structured JSON diagnostics
 		that agents can parse and fix in a single pass.
@@ -86,8 +86,8 @@
 
 	<h3 id="effects">Effects as Permissions</h3>
 	<p>
-		Side effects go in the type signature. If a function doesn't declare
-		<code>{"{Fs}"}</code>, it can't touch the filesystem. No <code>{"{Http}"}</code>
+		Side effects go in the type signature. If a function declares its effects
+		and leaves out <code>{"{Fs}"}</code>, it can't touch the filesystem. No <code>{"{Http}"}</code>
 		means no network requests. The compiler enforces this, not a linter.
 	</p>
 	<pre><code>{@html `<span class="comment">// Pure: no effects, no surprises</span>
