@@ -12,7 +12,7 @@
 	<h2>v0.3.4 <span class="dim small">March 11, 2026</span></h2>
 	<p>
 		Bangless syntax: the <code>!</code> suffix has been removed from effectful function names.
-		The compiler now uses semantic effect detection -- effects are determined from the
+		The compiler now uses semantic effect detection. Effects are determined from the
 		function body and the <code>{"{Effect}"}</code> annotation in the return type, not from
 		naming conventions.
 	</p>
@@ -44,12 +44,12 @@
 
 	<h3>Standard Library</h3>
 	<ul>
-		<li><code>List.count_flips</code> -- pancake flip loop executed entirely in Rust with in-place mutation</li>
-		<li><code>List.rotate_left</code>, <code>List.reverse_prefix</code>, <code>List.swap</code> -- permutation primitives with CoW owning variants</li>
-		<li><code>List.push</code> -- single-element append with copy-on-write</li>
-		<li><code>List.bisect</code> -- linear scan for cumulative probability threshold</li>
-		<li><code>String.cyclic_substring</code> -- extract chars with wrap-around, fast ASCII byte path</li>
-		<li><code>String.random_fasta_line</code> -- PRNG loop with cumulative lookup and string building in one native call</li>
+		<li><code>List.count_flips</code>: pancake flip loop executed entirely in Rust with in-place mutation</li>
+		<li><code>List.rotate_left</code>, <code>List.reverse_prefix</code>, <code>List.swap</code>: permutation primitives with CoW owning variants</li>
+		<li><code>List.push</code>: single-element append with copy-on-write</li>
+		<li><code>List.bisect</code>: linear scan for cumulative probability threshold</li>
+		<li><code>String.cyclic_substring</code>: extract chars with wrap-around, fast ASCII byte path</li>
+		<li><code>String.random_fasta_line</code>: PRNG loop with cumulative lookup and string building in one native call</li>
 	</ul>
 
 	<h3>Bug Fixes</h3>
@@ -71,7 +71,7 @@
 	<h2>v0.3.2 <span class="dim small">March 9, 2026</span></h2>
 	<p>
 		Production-ready server runtime, scalar replacement of aggregates, and mutable bindings.
-		The HTTP server gains middleware, graceful shutdown, rate limiting, compression, and CORS --
+		The HTTP server gains middleware, graceful shutdown, rate limiting, compression, and CORS,
 		while the JIT compiler delivers major performance wins through SRA and scalar RC elision.
 	</p>
 
@@ -91,9 +91,9 @@
 
 	<h3>JIT Compiler</h3>
 	<ul>
-		<li><strong>Scalar replacement of aggregates</strong> (SRA) -- record parameters decomposed into individual registers, eliminating heap allocation in tight loops</li>
+		<li><strong>Scalar replacement of aggregates</strong> (SRA): record parameters decomposed into individual registers, eliminating heap allocation in tight loops</li>
 		<li>SRA let-floating exposes inlined records to optimization (<strong>6x nbody speedup</strong>)</li>
-		<li><strong>Scalar RC elision</strong> -- skip incref/decref for Int, Float, Bool, Unit values</li>
+		<li><strong>Scalar RC elision</strong>: skip incref/decref for Int, Float, Bool, Unit values</li>
 		<li>Multi-value returns for all-scalar records (one register per field)</li>
 		<li>Mutable field assignment compiles to direct SRA variable update (zero allocation)</li>
 		<li>Tail recursion modulo constructor (TRMC) rewrites recursive constructors into iterative loops</li>
@@ -121,12 +121,12 @@
 	<h2>v0.3.0 <span class="dim small">March 5, 2026</span></h2>
 	<p>
 		JIT-only execution, fiber-based effect handlers, and a major stdlib expansion.
-		The tree-walk interpreter has been removed -- Cranelift JIT is now the default and only runtime.
+		The tree-walk interpreter has been removed. Cranelift JIT is now the default and only runtime.
 	</p>
 
 	<h3>JIT Compiler</h3>
 	<ul>
-		<li>Cranelift JIT is now the <strong>default and only runtime</strong> -- the bytecode VM interpreter has been removed</li>
+		<li>Cranelift JIT is now the <strong>default and only runtime</strong>. The bytecode VM interpreter has been removed</li>
 		<li>Self-tail-call optimization (recursive calls compile to loops)</li>
 		<li>Base-case speculation inlines guard checks at call sites</li>
 		<li>Clone-on-write enum field updates bypass <code>Arc::get_mut</code> via safe raw pointer mutation</li>
@@ -139,7 +139,7 @@
 
 	<h3>Performance</h3>
 	<ul>
-		<li>Indexed field access -- field indices resolved at compile time, O(1) Vec lookup at runtime</li>
+		<li>Indexed field access: field indices resolved at compile time, O(1) Vec lookup at runtime</li>
 		<li>Aggressive function inlining (lightweight functions up to 120 IR nodes)</li>
 		<li>Tuple-let fusion eliminates allocation from inlined multi-return</li>
 		<li>Non-atomic RC mode for single-threaded execution</li>
