@@ -70,7 +70,7 @@
 <section id="sum-types">
 	<h2>Sum Types</h2>
 	<p>
-		A value can be one of several variants, each optionally carrying data.
+		A value can be one of several variants, and each can carry data.
 		The compiler makes sure every <code>match</code> handles all of them.
 	</p>
 	<pre><code>{@html `<span class="kw">type</span> <span class="type">Shape</span> <span class="op">=</span>
@@ -85,7 +85,7 @@
     <span class="type">Point</span>        <span class="op">-&gt;</span> <span class="str">"point"</span>`}</code></pre>
 	<p>
 		<code>Option&lt;T&gt;</code> and <code>Result&lt;T, E&gt;</code> are built-in
-		sum types. No <code>null</code>, no <code>undefined</code>, no exceptions.
+		sum types. They replace <code>null</code>, <code>undefined</code>, and exceptions.
 	</p>
 </section>
 
@@ -120,8 +120,8 @@
 <section id="effects">
 	<h2>Effects</h2>
 	<p>
-		Side effects are declared in the type signature. The <code>{"{Effect}"}</code>
-		braces in the return type declare which effects a function uses. The compiler
+		The <code>{"{Effect}"}</code> braces in the return type declare which side
+		effects a function uses. The compiler
 		enforces this, not a linter.
 	</p>
 	<pre><code>{@html `<span class="comment">// Pure: no effects, can be called from anywhere</span>
@@ -166,7 +166,8 @@
 	<h2>Effect Inference</h2>
 	<p>
 		If you leave off the effect annotation, the compiler infers it from the
-		function body. Only explicit annotations get checked against.
+		function body. The compiler checks a function against its effect set only
+		when you annotate one.
 	</p>
 	<pre><code>{@html `<span class="comment">// No annotation: effects inferred as {Console}</span>
 <span class="kw">fn</span> <span class="fn">helper</span><span class="punct">(</span><span class="fn">msg</span><span class="op">:</span> <span class="type">String</span><span class="punct">)</span> <span class="op">=</span>

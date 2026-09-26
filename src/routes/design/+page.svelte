@@ -73,16 +73,16 @@
 	<p>
 		A function that receives <code>Port</code> never needs to check the range.
 		A function that receives <code>Percentage</code> never needs to clamp.
-		The constraint is encoded once in the type definition and enforced
-		everywhere by the compiler.
+		You encode the constraint once in the type definition, and the compiler
+		enforces it everywhere.
 	</p>
 </section>
 
 <section id="refinements-effects">
 	<h2>Refinements + Effects Together</h2>
 	<p>
-		Two verification systems, each useful alone, become significantly more
-		useful together.
+		Two verification systems, each useful alone, become more useful
+		together.
 	</p>
 	<p>
 		<strong>Refinements</strong> check data invariants: is this port in range?
@@ -90,9 +90,9 @@
 		does this function touch the filesystem? Does it make network requests?
 	</p>
 	<p>
-		Together, they answer a question no other practical language can answer at
-		compile time: <em>is this function honest about what it accepts AND what
-		it does?</em>
+		Together, they answer one question at compile time: <em>is this function
+		honest about what it accepts and what it does?</em> No other practical
+		language answers it.
 	</p>
 	<pre><code>{@html `<span class="kw">fn</span> <span class="fn">agent_task</span><span class="punct">(</span><span class="fn">input</span><span class="op">:</span> <span class="type">Input</span><span class="punct">)</span> <span class="op">-&gt;</span> <span class="effect">{Log, Db.read}</span> <span class="type">Output</span> <span class="op">=</span>
   <span class="type">Log</span><span class="punct">.</span><span class="fn">info</span><span class="punct">(</span><span class="str">"Processing \${input}"</span><span class="punct">)</span>
@@ -169,10 +169,9 @@
   }]
 }`}</code></pre>
 	<p>
-		This is not a human-readable error message with a suggestion. It is a
-		machine-actionable patch with a named strategy
-		(<code>escalate_capability</code>), the exact text to find, and the exact
-		replacement. An LLM receives this, applies the patch, resubmits. One-shot fix.
+		The diagnostic is a machine-actionable patch. It names a strategy,
+		<code>escalate_capability</code>, and gives the exact text to find and the
+		exact replacement. An LLM receives this, applies the patch, resubmits. One-shot fix.
 	</p>
 
 	<h3>Three verification layers, one format</h3>
@@ -190,14 +189,13 @@
 		</tbody>
 	</table>
 	<p>
-		Each includes error codes, source locations, context, and (where applicable)
-		patch suggestions with confidence scores.
+		Each includes error codes, source locations, and context. When a fix exists,
+		it also includes patch suggestions with confidence scores.
 	</p>
 
 	<h3>The generate-check-fix loop</h3>
 	<p>
-		The compiler becomes a collaboration partner, not an obstacle. An LLM
-		generating Baseline code enters a feedback loop:
+		An LLM generating Baseline code runs a feedback loop with the compiler:
 	</p>
 	<ol>
 		<li>Generate code from a type signature</li>
@@ -207,7 +205,6 @@
 		<li>Repeat until clean</li>
 	</ol>
 	<p>
-		The compiler guides the model to correctness through structured feedback.
 		LLMs don't need millions of Baseline programs to generate correct code
 		if the compiler teaches them through actionable diagnostics.
 	</p>
@@ -221,8 +218,7 @@
 
 	<h3>vs. TypeScript</h3>
 	<p>
-		TypeScript's type system is structurally sound in many cases but
-		fundamentally advisory. <code>any</code> exists. Type assertions exist.
+		TypeScript's type system is sound in many cases but advisory. <code>any</code> exists. Type assertions exist.
 		Runtime and compile-time types can disagree. TypeScript has npm
 		(2M+ packages) and massive LLM training data. Baseline has 38 stdlib
 		modules and near-zero training data. TypeScript is the pragmatic choice
@@ -246,8 +242,8 @@
 		OCaml 5 added effect handlers. It has a mature type system, great
 		performance, and a real ecosystem (opam). Baseline adds refinement types
 		and structured diagnostics on top of effects. OCaml's effect handlers
-		are lower-level (untyped in the initial implementation). Baseline's are
-		declared in function signatures and checked transitively. OCaml is the
+		are lower-level (untyped in the initial implementation). Baseline checks
+		declared effects transitively through the call graph. OCaml is the
 		more mature choice. Baseline's advantage is the combination of refinements
 		+ effects + diagnostics.
 	</p>

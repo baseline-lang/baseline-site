@@ -73,7 +73,7 @@ Hello, World!`}</code></pre>
 	<h2>Functions</h2>
 	<p>
 		Every function is <code>fn name(params) -> Type = body</code>.
-		The last expression is the return value, there is no <code>return</code> keyword.
+		The last expression is the return value. There is no <code>return</code> keyword.
 	</p>
 	<p>
 		If the body is a single expression, write it right after <code>=</code>.
